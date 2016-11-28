@@ -3,17 +3,17 @@ var cooking = require('cooking');
 
 cooking.set({
   entry: {
-    app: ['babel-polyfill', './src/main.js']
+    app: ['babel-polyfill', './src/mainNew.js']
   },
   externals: {
     'zepto': 'Zepto',
     'wx': 'jWeixin'
   },
   dist: './dist',
-  template: './index.tpl',
+  template: './indexNew.tpl',
 
   devServer: {
-    port: 8080,
+    port: 9090,
     publicPath: '/'
   },
 

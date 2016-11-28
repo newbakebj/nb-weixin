@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "babel-polyfill": "*",
+    "muse-ui": "^2.0.0-alpha.10",
     "vue": "^2.0.0-rc",
     "vue-resource": "^1.0.3",
     "vue-router": "^2.0.1"

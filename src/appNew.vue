@@ -1,0 +1,72 @@
+<template>
+    <div>
+        <!--主显示区-->
+        <div>
+            <transition :name="transitionName">
+                <router-view class="main-router-view"></router-view>
+            </transition>
+        </div>
+        <!--底部导航栏-->
+        <div class="bottom-nav">
+            <mu-paper>
+                <mu-bottom-nav :value="bottomNav" shift @change="changeBottomNav">
+                    <mu-bottom-nav-item value="community" title="社区" icon="camera"/>
+                    <mu-bottom-nav-item value="market" title="商城" icon="shopping_basket"/>
+                    <mu-bottom-nav-item value="cart" title="购物车" icon="shopping_cart"/>
+                    <mu-bottom-nav-item value="mine" title="我的" icon="account_circle"/>
+                </mu-bottom-nav>
+            </mu-paper>
+        </div>
+    </div>
+</template>
+
+<script>
+    export default {
+        data () {
+            return {
+                transitionName: 'slide-left',
+                bottomNav: 'community'
+            }
+        },
+        methods: {
+            changeBottomNav (val) {
+                this.bottomNav = val;
+                this.$router.push({ name: val });
+            }
+        },
+        watch: {
+            '$route' (to, from) {
+                console.log(to);
+                console.log(from);
+                const toDepth = to.path.split('/').length;
+                const fromDepth = from.path.split('/').length;
+                this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left';
+            }
+        }
+    }
+</script>
+
+<style>
+    .bottom-nav {
+        max-width: 750px;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
+    .main-router-view {
+        position: absolute;
+        transition: all .5s cubic-bezier(.55,0,.1,1);
+    }
+    .slide-left-enter, .slide-right-leave-active {
+        opacity: 0;
+        transform: translate(30px, 0);
+    }
+    .slide-left-leave-active, .slide-right-enter {
+        opacity: 0;
+        transform: translate(-30px, 0);
+    }
+</style>
+
