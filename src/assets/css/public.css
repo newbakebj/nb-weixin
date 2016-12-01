@@ -1,0 +1,41 @@
+@charset "UTF-8";
+
+html {
+    font-size: 12px;
+}
+
+div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td {margin: 0; padding: 0; }
+h1,h2,h3,h4,h5,h6,p {
+    margin: 0;
+    padding: 0;
+}
+ul,li{ list-style: none; }
+
+/*对齐*/
+.text_c{ text-align: center; }
+.text_l{ text-align: left; }
+.text_r{ text-align: right; }
+
+/*宽高*/
+.m_width { width: 100%; max-width: 750px; margin: auto; }
+
+
+/*响应式页面自适应*/
+@media screen and (max-width: 320px){  /*750基数x0.43 320倍数*/
+    html{ font-size: 12px !important; }
+}
+@media screen and (min-width: 325px) and (max-width: 399px) {  /*750基数x0.48 360倍数*/
+    html{ font-size: 14px !important; }
+}
+@media screen and (min-width: 400px) and (max-width: 499px){  /*750基数x0.574 430倍数*/
+    html{ font-size: 16px !important; }
+}
+@media screen and (min-width: 500px) and (max-width: 768px){  /*750基数x1*/
+    html{ font-size: 30px !important; }
+}
+@media screen and (min-width: 769px) and (max-width: 992px){  /*750基数x1.14 850倍数*/
+    html{ font-size: 32px !important; }
+}
+@media screen and (min-width: 993px){  /*750基数x1.33 1000倍数*/
+    html{ font-size: 37px !important; }
+}

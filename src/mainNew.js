@@ -8,6 +8,7 @@ import VueRouter from 'vue-router';
 import App from './appNew.vue';
 import MuseUI from 'muse-ui';  // 使用MuseUI
 import 'muse-ui/dist/muse-ui.css';
+import 'muse-ui/dist/theme-carbon.css';
 
 /*========== 定义所有视图模块 ==========*/
 const Community = () => System.import('./views/community.vue');

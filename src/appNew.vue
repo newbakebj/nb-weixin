@@ -1,22 +1,28 @@
 <template>
     <div>
-        <!--主显示区-->
-        <div>
-            <transition :name="transitionName">
-                <router-view class="main-router-view"></router-view>
-            </transition>
-        </div>
-        <!--底部导航栏-->
-        <div class="bottom-nav">
-            <mu-paper>
-                <mu-bottom-nav :value="bottomNav" shift @change="changeBottomNav">
-                    <mu-bottom-nav-item value="community" title="社区" icon="camera"/>
-                    <mu-bottom-nav-item value="market" title="商城" icon="shopping_basket"/>
-                    <mu-bottom-nav-item value="cart" title="购物车" icon="shopping_cart"/>
-                    <mu-bottom-nav-item value="mine" title="我的" icon="account_circle"/>
-                </mu-bottom-nav>
-            </mu-paper>
-        </div>
+        <mu-flexbox orient="vertical">
+            <mu-flexbox-item>
+                <!--主显示区-->
+                <div id="mainView">
+                    <transition :name="transitionName">
+                        <router-view class="main-router-view"></router-view>
+                    </transition>
+                </div>
+            </mu-flexbox-item>
+            <mu-flexbox-item>
+                <!--底部导航栏-->
+                <div class="bottom-nav" id="bottomNav">
+                    <mu-paper>
+                        <mu-bottom-nav :value="bottomNav" shift @change="changeBottomNav">
+                            <mu-bottom-nav-item value="community" title="社区" icon="camera"/>
+                            <mu-bottom-nav-item value="market" title="商城" icon="shopping_basket"/>
+                            <mu-bottom-nav-item value="cart" title="购物车" icon="shopping_cart"/>
+                            <mu-bottom-nav-item value="mine" title="我的" icon="account_circle"/>
+                        </mu-bottom-nav>
+                    </mu-paper>
+                </div>
+            </mu-flexbox-item>
+        </mu-flexbox>
     </div>
 </template>
 
@@ -25,7 +31,7 @@
         data () {
             return {
                 transitionName: 'slide-left',
-                bottomNav: 'community'
+                bottomNav: 'mine'
             }
         },
         methods: {
