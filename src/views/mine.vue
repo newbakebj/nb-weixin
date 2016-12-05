@@ -125,12 +125,12 @@
     }
 
     .mine_profile {
-        padding-top: 3rem;
+        padding-top: 40px;
     }
 
     .mine_profile img {
-        width: 6.25rem;
-        height: 6.25rem;
+        width: 70px;
+        height: 70px;
         margin: 0 auto;
         display: block;
         border-radius: 50%;
@@ -141,13 +141,13 @@
         display: inline-block;
         color: #fff;
         font-weight: bold;
-        font-size: 1.75rem;
-        height: 1.5rem;
-        line-height: 1.25rem;
+        font-size: 16px;
+        height: 16px;
+        line-height: 16px;
         background: url(../../src/assets/img/sex_male.png) right 0 no-repeat;
         background-size: auto 100%;
-        padding: 0 1.5rem;
-        margin: 1.5rem 0 2.5rem;
+        padding: 0 15px;
+        margin: 10px 0 15px;
     }
 
     .mine_info {
@@ -163,11 +163,11 @@
     }
 
     .mine_info ul li {
-        width: 5.5rem;
+        width: 55px;
         float: left;
-        line-height: 2rem;
+        line-height: 20px;
         border-right: 1px solid #303030;
-        margin-bottom: 0.5rem;
+        margin-bottom: 5px;
     }
 
     .mine_info ul li:last-child {
@@ -177,8 +177,8 @@
     .mine_info ul li span.val {
         color: #fff;
         font-weight: bold;
-        font-size: 1.75rem;
-        line-height: 1.75rem;
+        font-size: 16px;
+        line-height: 16px;
         display: block;
         width: 100%;
         text-align: center;
@@ -186,7 +186,7 @@
 
     .mine_info ul li span.inf {
         display: inline-block;
-        font-size: 1.25rem;
+        font-size: 12px;
         color: #888888;
         text-align: center;
         width: 100%;
@@ -195,7 +195,7 @@
     .mine_setting {
         float: right;
         width: 25%;
-        margin-right: 2rem;
+        margin-right: 15px;
         color: #888;
     }
 
@@ -212,7 +212,7 @@
     }
 
     .mine_order table {
-        margin-top: 1.5rem;
+        margin-top: 15px;
         width: 100%;
     }
 
