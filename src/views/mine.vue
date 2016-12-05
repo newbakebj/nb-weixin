@@ -1,44 +1,116 @@
 <template>
-    <mu-flexbox orient="vertical">
+    <mu-flexbox orient="vertical" class="pb60">
         <mu-flexbox-item>
-            <div id="profile" class="mine_top text_c m_width" >
+            <div id="profile" class="mine_top m_width text_c">
                 <mu-flexbox orient="vertical">
                     <mu-flexbox-item>
-                        <div class="mine_profile">
+                        <div class="mine_profile text_c">
                             <img src="../../src/assets/img/logo.png" alt="">
                             <span>张三</span>
                         </div>
                     </mu-flexbox-item>
                     <mu-flexbox-item>
-                        <div class="mine_info">
-                            <ul>
-                                <li>
-                                    <span class="val">100</span>
-                                    <span class="inf">积分</span>
-                                </li>
-                                <li>
-                                    <span class="val">100</span>
-                                    <span class="inf">余额</span>
-                                </li>
-                                <li>
-                                    <span class="val">100</span>
-                                    <span class="inf">焙币</span>
-                                </li>
-                            </ul>
-                            <mu-flat-button label="账户管理" labelPosition="before" icon="folder" primary></mu-flat-button>
-                        </div>
+                        <mu-flexbox class="mine_info">
+                            <mu-flexbox-item class="info_1">
+                                <ul>
+                                    <li>
+                                        <span class="val">100</span>
+                                        <span class="inf">积分</span>
+                                    </li>
+                                    <li>
+                                        <span class="val">100</span>
+                                        <span class="inf">余额</span>
+                                    </li>
+                                    <li>
+                                        <span class="val">100</span>
+                                        <span class="inf">焙币</span>
+                                    </li>
+                                </ul>
+                            </mu-flexbox-item>
+                            <mu-flexbox-item class="info_2">
+                                <mu-flat-button label="设置" icon="settings" class="mine_setting"></mu-flat-button>
+                            </mu-flexbox-item>
+                        </mu-flexbox>
                     </mu-flexbox-item>
                 </mu-flexbox>
             </div>
         </mu-flexbox-item>
         <mu-flexbox-item>
-            <div id="order">
-                订单
+            <div class="mine_order m_width">
+                <mu-list>
+                    <mu-list-item title="我的订单" disabled>
+                        <mu-flat-button slot="after" labelPosition="before" icon="navigate_next" hoverColor="#fff" label="查看所有订单"/>
+                    </mu-list-item>
+                </mu-list>
+                <mu-divider/>
+                <div>
+                    <table class="order_todo">
+                        <tr>
+                            <td>
+                                <a href="#">
+                                    <mu-badge content="1" circle secondary>
+                                        <mu-icon value="credit_card"/>
+                                        <br/>
+                                        待支付
+                                    </mu-badge>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="#">
+                                    <mu-badge content="2" circle secondary>
+                                        <mu-icon value="airport_shuttle"/>
+                                        <br/>
+                                        待收货
+                                    </mu-badge>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="#">
+                                    <mu-badge content="3" circle secondary>
+                                        <mu-icon value="star_half"/>
+                                        <br/>
+                                        待评价
+                                    </mu-badge>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="#">
+                                    <mu-badge content="4" circle secondary>
+                                        <mu-icon value="label"/>
+                                        <br/>
+                                        标签
+                                    </mu-badge>
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                    <mu-divider class="single_divider m_width"/>
+                </div>
             </div>
         </mu-flexbox-item>
         <mu-flexbox-item>
-            <div id="myItem">
-                我的收藏
+            <div class="mine_item m_width">
+                <mu-list>
+                    <mu-list-item title="我的收货地址">
+                        <mu-icon slot="left" value="place"/>
+                        <mu-icon value="navigate_next" slot="right"/>
+                    </mu-list-item>
+                    <mu-divider/>
+                    <mu-list-item title="我的收藏">
+                        <mu-icon slot="left" value="favorite"/>
+                        <mu-icon value="navigate_next" slot="right"/>
+                    </mu-list-item>
+                    <mu-divider/>
+                    <mu-list-item title="我关注的烘焙师">
+                        <mu-icon slot="left" value="face"/>
+                        <mu-icon value="navigate_next" slot="right"/>
+                    </mu-list-item>
+                    <mu-divider/>
+                    <mu-list-item title="意见反馈">
+                        <mu-icon slot="left" value="message"/>
+                        <mu-icon value="navigate_next" slot="right"/>
+                    </mu-list-item>
+                </mu-list>
             </div>
         </mu-flexbox-item>
     </mu-flexbox>
@@ -51,60 +123,117 @@
         background: #000000 center top;
         background-size: 100% auto;
     }
+
     .mine_profile {
-        text-align: center;
-        padding-top: 2.4rem;
+        padding-top: 3rem;
     }
+
     .mine_profile img {
-        width: 4rem;
-        height: 4rem;
+        width: 6.25rem;
+        height: 6.25rem;
         margin: 0 auto;
         display: block;
         border-radius: 50%;
-        border: 1px solid #fff;
+        border: 2px solid #fff;
     }
+
     .mine_profile span {
         display: inline-block;
         color: #fff;
         font-weight: bold;
-        font-size: 1rem;
-        height: 1.25rem;
+        font-size: 1.75rem;
+        height: 1.5rem;
         line-height: 1.25rem;
         background: url(../../src/assets/img/sex_male.png) right 0 no-repeat;
-        background-size: auto 80%;
-        padding: 0 1rem;
-        margin: 0.5rem 0 1.25rem;
+        background-size: auto 100%;
+        padding: 0 1.5rem;
+        margin: 1.5rem 0 2.5rem;
     }
+
     .mine_info {
         clear: both;
     }
+
+    .mine_info .info_1 {
+        width: 75%;
+    }
+
+    .mine_info .info_1 {
+        width: 25%;
+    }
+
     .mine_info ul li {
-        width: 4.5rem;
+        width: 5.5rem;
         float: left;
-        line-height: 1.25rem;
+        line-height: 2rem;
         border-right: 1px solid #303030;
         margin-bottom: 0.5rem;
     }
+
     .mine_info ul li:last-child {
         border-right: none;
     }
+
     .mine_info ul li span.val {
         color: #fff;
         font-weight: bold;
-        font-size: 1rem;
-        line-height: 1rem;
+        font-size: 1.75rem;
+        line-height: 1.75rem;
         display: block;
         width: 100%;
         text-align: center;
     }
+
     .mine_info ul li span.inf {
         display: inline-block;
-        font-size: 0.8rem;
+        font-size: 1.25rem;
         color: #888888;
         text-align: center;
         width: 100%;
     }
 
+    .mine_setting {
+        float: right;
+        width: 25%;
+        margin-right: 2rem;
+        color: #888;
+    }
+
+    .mine_order {
+        margin-top: -8px;
+    }
+
+    .mine_order .mu-list {
+        padding: 0;
+    }
+
+    .mine_order .mu-item {
+        padding: 8px;
+    }
+
+    .mine_order table {
+        margin-top: 1.5rem;
+        width: 100%;
+    }
+
+    .mine_order table td {
+        width: 25%;
+        text-align: center;
+    }
+
+    .single_divider {
+        height: 15px;
+        margin-top: 8px;
+    }
+
+    .mine_item {
+        /*margin-bottom: 50px;*/
+    }
+
+    .mine_item .mu-list {
+        margin-top: -5px;
+        padding: 0;
+    }
 
 
 </style>

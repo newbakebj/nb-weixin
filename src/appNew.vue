@@ -1,29 +1,24 @@
 <template>
-    <div>
-        <mu-flexbox orient="vertical">
-            <mu-flexbox-item>
-                <!--主显示区-->
-                <div id="mainView">
-                    <transition :name="transitionName">
-                        <router-view class="main-router-view"></router-view>
-                    </transition>
-                </div>
-            </mu-flexbox-item>
-            <mu-flexbox-item>
-                <!--底部导航栏-->
-                <div class="bottom-nav" id="bottomNav">
-                    <mu-paper>
-                        <mu-bottom-nav :value="bottomNav" shift @change="changeBottomNav">
-                            <mu-bottom-nav-item value="community" title="社区" icon="camera"/>
-                            <mu-bottom-nav-item value="market" title="商城" icon="shopping_basket"/>
-                            <mu-bottom-nav-item value="cart" title="购物车" icon="shopping_cart"/>
-                            <mu-bottom-nav-item value="mine" title="我的" icon="account_circle"/>
-                        </mu-bottom-nav>
-                    </mu-paper>
-                </div>
-            </mu-flexbox-item>
-        </mu-flexbox>
-    </div>
+    <mu-flexbox orient="vertical">
+        <mu-flexbox-item>
+            <!--主显示区-->
+            <!--<div id="mainView"></div>-->
+            <transition :name="transitionName">
+                <router-view class="main-router-view"></router-view>
+            </transition>
+        </mu-flexbox-item>
+        <mu-flexbox-item>
+            <!--底部导航栏-->
+            <mu-paper class="bottom-nav m_width" id="bottomNav">
+                <mu-bottom-nav :value="bottomNav" shift @change="changeBottomNav">
+                    <mu-bottom-nav-item value="community" title="社区" icon="camera"/>
+                    <mu-bottom-nav-item value="market" title="商城" icon="shopping_basket"/>
+                    <mu-bottom-nav-item value="cart" title="购物车" icon="shopping_cart"/>
+                    <mu-bottom-nav-item value="mine" title="我的" icon="account_circle"/>
+                </mu-bottom-nav>
+            </mu-paper>
+        </mu-flexbox-item>
+    </mu-flexbox>
 </template>
 
 <script>
@@ -54,13 +49,8 @@
 
 <style>
     .bottom-nav {
-        max-width: 750px;
-        left: 0;
-        right: 0;
-        margin: 0 auto;
         position: fixed;
         bottom: 0;
-        width: 100%;
     }
     .main-router-view {
         position: absolute;
