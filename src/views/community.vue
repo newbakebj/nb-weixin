@@ -14,11 +14,10 @@
             </swiper-slide>
         </swiper>
         <!--帖子列表-->
-        <post-formatter/>
         <mu-list>
             <template v-for="post in posts">
                 <mu-list-item>
-
+                    <post-formatter :post="post"/>
                 </mu-list-item>
                 <mu-divider/>
             </template>
@@ -77,7 +76,37 @@
             'post-formatter': postFormatter
         },
         data() {
-            const posts = [];
+            const posts = [{
+                title: 'post1',
+                content: '<h1>post1</h1>'
+            }, {
+                title: 'post2',
+                content: '<h1>post2</h1>'
+            }, {
+                title: 'post3',
+                content: '<h1>post3</h1>'
+            }, {
+                title: 'post4',
+                content: '<h1>post4</h1>'
+            }, {
+                title: 'post5',
+                content: '<h1>post5</h1>'
+            }, {
+                title: 'post6',
+                content: '<h1>post6</h1>'
+            }, {
+                title: 'post7',
+                content: '<h1>post7</h1>'
+            }, {
+                title: 'post8',
+                content: '<h1>post8</h1>'
+            }, {
+                title: 'post9',
+                content: '<h1>post9</h1>'
+            }, {
+                title: 'post10',
+                content: '<h1>post10</h1>'
+            }];
 
             return {
                 city: '选择城市',
@@ -115,7 +144,13 @@
                     category_id: 7,
                     category_name: '经验心得'
                 }],
+                posts : posts,
+                loading: false,
+                scroller: null
             };
+        },
+        mounted() {
+            this.scroller = this.$el;
         },
         methods: {
             selectCity() {
@@ -129,10 +164,11 @@
             },
             changeCategory(index, categoryId) {
                 this.curSwiper = index;
-//                alert(categoryId);
             },
             loadMorePost() {
-
+                this.loading = true;
+                // TODO
+                // 通过异步从后台获取列表数据
             }
 
         }
