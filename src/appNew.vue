@@ -27,7 +27,7 @@
             return {
                 transitionName: 'slide-left',
                 bottomNav: 'mine'
-            }
+            };
         },
         methods: {
             changeBottomNav (val) {

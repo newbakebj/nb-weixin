@@ -1,3 +1,4 @@
+<!--用户中心首页-->
 <template>
     <mu-flexbox orient="vertical" class="pb60">
         <mu-flexbox-item>
@@ -116,7 +117,12 @@
     </mu-flexbox>
 </template>
 <script>
-
+    export default {
+        name: 'mine',
+        data() {
+            return {};
+        }
+    }
 </script>
 <style>
     .mine_top {

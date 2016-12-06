@@ -5,6 +5,7 @@
 import Vue from 'vue';
 import VueResource from 'vue-resource';
 import VueRouter from 'vue-router';
+import AwesomeSwiper from 'vue-awesome-swiper';
 import App from './appNew.vue';
 import MuseUI from 'muse-ui';  // 使用MuseUI
 import 'muse-ui/dist/muse-ui.css';
@@ -74,6 +75,10 @@ Vue.http.options.emulateJSON = true;
 
 /*========== MuseUI组件配置 ==========*/
 Vue.use(MuseUI);
+
+/*========== Vue-Awesome-Swipe组件配置 ==========*/
+Vue.use(AwesomeSwiper);
+
 
 /*========== 挂载Vue实例至EL ==========*/
 new Vue({
