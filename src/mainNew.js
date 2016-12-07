@@ -4,6 +4,7 @@
  */
 import Vue from 'vue';
 import VueResource from 'vue-resource';
+// import Axios from 'axios';
 import VueRouter from 'vue-router';
 import AwesomeSwiper from 'vue-awesome-swiper';
 import App from './appNew.vue';
@@ -70,7 +71,7 @@ const router = new VueRouter({
 /*========== vue-resource组件配置 ==========*/
 // Vue启用VueResource
 Vue.use(VueResource);
-Vue.http.options.root = 'src/assets/data';
+Vue.http.options.root = 'src/assets/dataNew';
 Vue.http.options.emulateJSON = true;
 
 /*========== MuseUI组件配置 ==========*/
