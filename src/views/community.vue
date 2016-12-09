@@ -1,6 +1,6 @@
 <!--社区首页-->
 <template>
-    <div class="m_width">
+    <div class="m_width pb60">
         <!--标题栏-->
         <mu-appbar>
             <mu-flat-button slot="left" :label="city" icon="arrow_drop_down" hoverColor="pink200" labelPosition="before"
@@ -9,24 +9,23 @@
             <mu-icon-button slot="right" icon="more_vert" @click="showSharePopup"/>
         </mu-appbar>
         <!--滑动容器，显示主要类目-->
-        <!--<swiper :options="swiperOption" class="category_swiper">-->
-            <!--<swiper-slide v-for="(category, index) in categories">-->
-                <!--<a href="javascript:void(0);" :class="{ cur_swiper: (index == curSwiper) }"-->
-                   <!--@click="changeCategory(index, category.id)">{{ category.name }}</a>-->
-            <!--</swiper-slide>-->
-        <!--</swiper>-->
+        <swiper :options="swiperOption" class="category_swiper">
+            <swiper-slide v-for="(category, index) in categories">
+                <a href="javascript:void(0);" :class="{ cur_swiper: (index == curSwiper) }"
+                   @click="changeCategory(index, category.id)">{{ category.name }}</a>
+            </swiper-slide>
+        </swiper>
         <!--帖子列表-->
-        <div id="test">
-            <mu-list style="height: 200px;">
+        <div class="post-list" id="postList">
+            <mu-list>
                 <template v-for="post in posts">
                     <mu-list-item>
-                        <!--<post-formatter :post="post"/>-->
-                        <span>{{ post }}</span>
+                        <post-formatter :post="post"/>
                     </mu-list-item>
                     <mu-divider/>
                 </template>
             </mu-list>
-            <mu-infinite-scroll :scroller="scroller" :loading="loading" @load="loadMorePost"/>
+            <mu-infinite-scroll :scroller="scroller" :loading="loading" loadingText="玩命加载中..." @load="loadMorePost"/>
         </div>
 
 
@@ -83,10 +82,6 @@
             'post-formatter': postFormatter
         },
         data() {
-            const posts = [];
-            for (let i = 0; i < 10; i++) {
-                posts.push('item' + (i + 1))
-            }
             return {
                 city: '选择城市',
                 isShareToPopupShown: false,
@@ -98,18 +93,27 @@
                 },
                 curSwiper: 0,
                 categories: [],
-                posts,
-                num: 10,
+                posts: [],
                 loading: false,
                 scroller: null,
                 loadingText: '正在玩命加载...',
             };
         },
         mounted() {
-            this.scroller = this.$el.querySelector('#test');
-//            this.scroller = this.$el;
+            /*
+             * 这里对父子Vue实例的生命周期理解不甚
+             * 若直接对(DOM使用的)响应级成员进行赋值，如scroller、loading等，
+             * 则会触发update，导致DOM更新
+             * 但DOM更新时调用swiper的updated钩子
+             * this.swiper为undefined
+             * 因此在此将更新操作置于当前实例的nextTick中
+             */
+            this.$nextTick(function () {
+                // 对响应级数据进行赋值将导致update响应(在本DOM)
+                this.scroller = this.$el.querySelector('#postList');
+            });
             this.loadCategory();
-//            this.loadPost();
+            this.loadPost();
         },
         methods: {
             selectCity() {
@@ -137,17 +141,13 @@
                     });
             },
             loadMorePost() {
-                alert('hello');
                 this.loading = true;
-                setTimeout(() => {
-                    for (let i = this.num; i < this.num + 10; i++) {
-                        this.posts.push('item' + (i + 1))
-                    }
-                    this.num += 10;
-                    this.loading = false
-                }, 2000);
+                this.$http.get('postsMore.json')
+                    .then((response) => {
+                        this.$set(this.$data, 'posts', this.posts.concat(response.data));
+                        this.loading = false;
+                    });
             }
-
         }
     }
 </script>
@@ -226,6 +226,13 @@
         color: #ff5252 !important;
         font-weight: bold;
         border-bottom: #ff5252 1px solid;
+    }
+
+    .post-list {
+        height: 1024px;
+        overflow: auto;
+        overflow-scrolling: touch;
+        border: 1px solid #ffff00;
     }
 
 

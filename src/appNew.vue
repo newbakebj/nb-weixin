@@ -2,7 +2,6 @@
     <mu-flexbox orient="vertical">
         <mu-flexbox-item>
             <!--主显示区-->
-            <!--<div id="mainView"></div>-->
             <transition :name="transitionName">
                 <router-view class="main-router-view"></router-view>
             </transition>

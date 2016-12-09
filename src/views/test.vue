@@ -9,14 +9,14 @@
             <mu-icon-button slot="right" icon="more_vert" @click="showSharePopup"/>
         </mu-appbar>
         <!--滑动容器，显示主要类目-->
-        <swiper :options="swiperOption" class="category_swiper">
-            <swiper-slide v-for="(category, index) in categories">
-                <a href="javascript:void(0);" :class="{ cur_swiper: (index == curSwiper) }"
-                   @click="changeCategory(index, category.id)">{{ category.name }}</a>
-            </swiper-slide>
-        </swiper>
+        <!--<swiper :options="swiperOption" class="category_swiper">-->
+        <!--<swiper-slide v-for="(category, index) in categories">-->
+        <!--<a href="javascript:void(0);" :class="{ cur_swiper: (index == curSwiper) }"-->
+        <!--@click="changeCategory(index, category.id)">{{ category.name }}</a>-->
+        <!--</swiper-slide>-->
+        <!--</swiper>-->
         <!--帖子列表-->
-        <div id="test">
+        <div class="posts-list">
             <mu-list>
                 <template v-for="post in posts">
                     <mu-list-item>
@@ -26,16 +26,7 @@
                     <mu-divider/>
                 </template>
             </mu-list>
-            <mu-infinite-scroll :scroller="scroller" :loading="loading" @load="loadMorePost"/>
-        </div>
-        <div class="demo-infinite-container">
-            <mu-list>
-                <template v-for="item in list">
-                    <mu-list-item :title="item"/>
-                    <mu-divider/>
-                </template>
-            </mu-list>
-            <mu-infinite-scroll :scroller="scroller" :loading="loading" @load="loadMore"/>
+            <mu-infinite-scroll :scroller="scroller" :loading="loading" loadingText="玩命加载中..." @load="alert('hello');"/>
         </div>
 
 
@@ -93,7 +84,7 @@
         },
         data() {
             const posts = [];
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < 40; i++) {
                 posts.push('item' + (i + 1))
             }
             return {
@@ -115,7 +106,6 @@
             };
         },
         mounted() {
-//            this.scroller = this.$el.querySelector('#test');
             this.scroller = this.$el;
             this.loadCategory();
 //            this.loadPost();
@@ -145,7 +135,8 @@
                         this.$set(this.$data, 'posts', response.data);
                     });
             },
-            loadMorePost() {
+            loadMore() {
+                alert('hello');
                 this.loading = true;
                 setTimeout(() => {
                     for (let i = this.num; i < this.num + 10; i++) {
@@ -234,6 +225,13 @@
         color: #ff5252 !important;
         font-weight: bold;
         border-bottom: #ff5252 1px solid;
+    }
+
+    .posts-list {
+        height: 400px;
+        overflow: auto;
+        overflow-scrolling: touch;
+        border: 1px solid #ffff00;
     }
 
 
