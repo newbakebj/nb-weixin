@@ -75,7 +75,7 @@
     </div>
 </template>
 <script>
-    import postFormatter from '../components/PostFormatter.vue';
+    import postFormatter from '../components/ThreadFormatter.vue';
 
     export default {
         name: 'community',

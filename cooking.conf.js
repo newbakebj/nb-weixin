@@ -31,7 +31,8 @@ cooking.set({
     urlLoaderLimit: 10000,
     extractCSS: '[name].[contenthash:7].css',
     alias: {
-        'src': path.join(__dirname, 'src')
+        'src': path.join(__dirname, 'src'),
+        'vue$': 'vue/dist/vue'
     },
     extends: ['vue2', 'less', 'autoprefixer']
 });

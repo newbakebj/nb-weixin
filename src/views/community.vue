@@ -1,85 +1,86 @@
 <!--社区首页-->
 <template>
     <div class="m_width pb60">
-        <!--标题栏-->
-        <mu-appbar>
-            <mu-flat-button slot="left" :label="city" icon="arrow_drop_down" hoverColor="pink200" labelPosition="before"
-                            class="city_choose" @click="selectCity"/>
-            <mu-text-field slot="left" icon="search" hintText="寻找好帖" class="community_search"/>
-            <mu-icon-button slot="right" icon="more_vert" @click="showSharePopup"/>
-        </mu-appbar>
-        <!--滑动容器，显示主要类目-->
-        <swiper :options="swiperOption" class="category_swiper">
-            <swiper-slide v-for="(category, index) in categories">
-                <a href="javascript:void(0);" :class="{ cur_swiper: (index == curSwiper) }"
-                   @click="changeCategory(index, category.id)">{{ category.name }}</a>
-            </swiper-slide>
-        </swiper>
+        <!--页头-->
+        <div class="header m_width">
+            <!--标题栏-->
+            <mu-appbar>
+                <mu-flat-button slot="left" :label="city" icon="arrow_drop_down" hoverColor="pink200" labelPosition="before"
+                                class="city_choose" @click="selectCity"/>
+                <mu-text-field slot="left" icon="search" hintText="寻找好帖" class="community_search"/>
+                <mu-icon-button slot="right" icon="more_vert" @click="showSharePopup"/>
+            </mu-appbar>
+            <!--滑动容器，显示主要类目-->
+            <swiper :options="swiperOption" class="category_swiper">
+                <swiper-slide v-for="(category, index) in categories">
+                    <a href="javascript:void(0);" :class="{ cur_swiper: (index == curSwiper) }"
+                       @click="changeCategory(index, category.id)">{{ category.name }}</a>
+                </swiper-slide>
+            </swiper>
+            <!--标题栏信息按钮弹出面板-->
+            <mu-popup position="bottom" popupClass="share-to-popup m_width" :open="isShareToPopupShown"
+                      @close="closeSharePopup">
+                <table class="share_to_table">
+                    <tr>
+                        <td>
+                            <img src="../../src/assets/img/bottom_popup/wx_moments.png"/>
+                            <br/>
+                            <span>微信朋友圈</span>
+                        </td>
+                        <td>
+                            <img src="../../src/assets/img/bottom_popup/wx.png"/>
+                            <br/>
+                            <span>微信好友</span>
+                        </td>
+                        <td>
+                            <img src="../../src/assets/img/bottom_popup/qq.png"/>
+                            <br/>
+                            <span>QQ好友</span>
+                        </td>
+                        <td>
+                            <img src="../../src/assets/img/bottom_popup/qq_zone.png"/>
+                            <br/>
+                            <span>QQ空间</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="../../src/assets/img/bottom_popup/night.png"/>
+                            <br/>
+                            <span>夜间模式</span>
+                        </td>
+                        <td>
+                            <img src="../../src/assets/img/bottom_popup/tip_off.png"/>
+                            <br/>
+                            <span>举报</span>
+                        </td>
+                    </tr>
+                </table>
+                <!--<mu-divider />-->
+                <mu-raised-button label="取消" fullWidth @click="closeSharePopup"/>
+            </mu-popup>
+        </div>
         <!--帖子列表-->
-        <div class="post-list" id="postList">
+        <div class="thread-list" id="threadList">
             <mu-list>
-                <template v-for="post in posts">
+                <template v-for="thread in threads">
                     <mu-list-item>
-                        <post-formatter :post="post"/>
+                        <thread-formatter :thread="thread"/>
                     </mu-list-item>
                     <mu-divider/>
                 </template>
             </mu-list>
-            <mu-infinite-scroll :scroller="scroller" :loading="loading" loadingText="玩命加载中..." @load="loadMorePost"/>
+            <mu-infinite-scroll :scroller="scroller" :loading="loading" loadingText="玩命加载中..." @load="loadMoreThread"/>
         </div>
-
-
-        <!--标题栏信息按钮弹出面板-->
-        <mu-popup position="bottom" popupClass="share-to-popup m_width" :open="isShareToPopupShown"
-                  @close="closeSharePopup">
-            <table class="share_to_table">
-                <tr>
-                    <td>
-                        <img src="../../src/assets/img/bottom_popup/wx_moments.png"/>
-                        <br/>
-                        <span>微信朋友圈</span>
-                    </td>
-                    <td>
-                        <img src="../../src/assets/img/bottom_popup/wx.png"/>
-                        <br/>
-                        <span>微信好友</span>
-                    </td>
-                    <td>
-                        <img src="../../src/assets/img/bottom_popup/qq.png"/>
-                        <br/>
-                        <span>QQ好友</span>
-                    </td>
-                    <td>
-                        <img src="../../src/assets/img/bottom_popup/qq_zone.png"/>
-                        <br/>
-                        <span>QQ空间</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="../../src/assets/img/bottom_popup/night.png"/>
-                        <br/>
-                        <span>夜间模式</span>
-                    </td>
-                    <td>
-                        <img src="../../src/assets/img/bottom_popup/tip_off.png"/>
-                        <br/>
-                        <span>举报</span>
-                    </td>
-                </tr>
-            </table>
-            <!--<mu-divider />-->
-            <mu-raised-button label="取消" fullWidth @click="closeSharePopup"/>
-        </mu-popup>
     </div>
 </template>
 <script>
-    import postFormatter from '../components/PostFormatter.vue';
+    import threadFormatter from '../components/ThreadFormatter.vue';
 
     export default {
         name: 'community',
         components: {
-            'post-formatter': postFormatter
+            'thread-formatter': threadFormatter
         },
         data() {
             return {
@@ -93,7 +94,7 @@
                 },
                 curSwiper: 0,
                 categories: [],
-                posts: [],
+                threads: [],
                 loading: false,
                 scroller: null,
                 loadingText: '正在玩命加载...',
@@ -110,10 +111,10 @@
              */
             this.$nextTick(function () {
                 // 对响应级数据进行赋值将导致update响应(在本DOM)
-                this.scroller = this.$el.querySelector('#postList');
+                this.scroller = this.$el.querySelector('#threadList');
             });
             this.loadCategory();
-            this.loadPost();
+            this.loadThread();
         },
         methods: {
             selectCity() {
@@ -134,17 +135,17 @@
             changeCategory(index, categoryId) {
                 this.curSwiper = index;
             },
-            loadPost() {
-                this.$http.get('posts.json')
+            loadThread() {
+                this.$http.get('threads.json')
                     .then((response) => {
-                        this.$set(this.$data, 'posts', response.data);
+                        this.$set(this.$data, 'threads', response.data);
                     });
             },
-            loadMorePost() {
+            loadMoreThread() {
                 this.loading = true;
-                this.$http.get('postsMore.json')
+                this.$http.get('threadsMore.json')
                     .then((response) => {
-                        this.$set(this.$data, 'posts', this.posts.concat(response.data));
+                        this.$set(this.$data, 'threads', this.threads.concat(response.data));
                         this.loading = false;
                     });
             }
@@ -152,6 +153,11 @@
     }
 </script>
 <style>
+    .header {
+        position: fixed;
+        top: 0;
+        z-index: 1;
+    }
     .city_choose {
         padding-left: 0;
         padding-right: 0 !important;
@@ -228,12 +234,10 @@
         border-bottom: #ff5252 1px solid;
     }
 
-    .post-list {
+    .thread-list {
+        margin-top: 100px;
         height: 1024px;
         overflow: auto;
         overflow-scrolling: touch;
-        border: 1px solid #ffff00;
     }
-
-
 </style>

@@ -16,7 +16,8 @@ ul,li{ list-style: none; }
 .fcb{ clear:both;}
 
 /*宽高*/
-.m_width { width: 100%; max-width: 750px; margin: 0 auto; left: 0; right: 0;}
+.m_width { width: 100%;
+    min-width:320px; max-width: 750px; margin: 0 auto; left: 0; right: 0;}
 
 /*位置*/
 .pb60 { padding-bottom: 60px; }
