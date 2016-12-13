@@ -13,8 +13,10 @@ cooking.set({
     template: './indexNew.tpl',
 
     devServer: {
+        hostname: '0.0.0.0',
         port: 9090,
-        publicPath: '/'
+        publicPath: '/',
+        open: true
     },
 
     // production

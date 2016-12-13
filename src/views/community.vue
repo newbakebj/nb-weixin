@@ -61,13 +61,13 @@
             </mu-popup>
         </div>
         <!--帖子列表-->
-        <div class="thread-list" id="threadList">
+        <div class="thread_list" id="threadList">
             <mu-list>
                 <template v-for="thread in threads">
                     <mu-list-item>
                         <thread-formatter :thread="thread"/>
                     </mu-list-item>
-                    <mu-divider/>
+                    <mu-divider class="thread_list_divider"/>
                 </template>
             </mu-list>
             <mu-infinite-scroll :scroller="scroller" :loading="loading" loadingText="玩命加载中..." @load="loadMoreThread"/>
@@ -171,7 +171,7 @@
 
     .community_search {
         font-size: 13px;
-        width: 160px;
+        width: 200px;
     }
 
     .community_search .mu-text-field-input {
@@ -234,10 +234,17 @@
         border-bottom: #ff5252 1px solid;
     }
 
-    .thread-list {
+    .thread_list {
         margin-top: 100px;
         height: 1024px;
         overflow: auto;
         overflow-scrolling: touch;
+    }
+    .thread_list .mu-item {
+        padding: 12px !important;
+    }
+    .thread_list .thread_list_divider {
+        width: 94%;
+        margin: auto !important;
     }
 </style>
