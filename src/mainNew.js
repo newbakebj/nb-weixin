@@ -11,9 +11,11 @@ import App from './appNew.vue';
 import MuseUI from 'muse-ui';  // 使用MuseUI
 import 'muse-ui/dist/muse-ui.css';
 import 'muse-ui/dist/theme-carbon.css';
+import _ from 'lodash';
 
 /*========== 定义所有视图模块 ==========*/
 const Community = () => System.import('./views/community.vue');
+const ThreadDetail = () => System.import('./views/threadDetail.vue');
 const Market = () => System.import('./views/market.vue');
 const Cart = () => System.import('./views/cart.vue');
 const Mine = () => System.import('./views/mine.vue');
@@ -50,6 +52,10 @@ const router = new VueRouter({
         path: '/community',
         component: Community
     }, {
+        name: 'threadDetail',
+        path: '/thread/:id',
+        component: ThreadDetail
+    }, {
         name: 'market',
         path: '/market',
         component: Market
@@ -71,7 +77,7 @@ const router = new VueRouter({
 /*========== vue-resource组件配置 ==========*/
 // Vue启用VueResource
 Vue.use(VueResource);
-Vue.http.options.root = 'src/assets/dataNew';
+Vue.http.options.root = '/src/assets/dataNew';
 Vue.http.options.emulateJSON = true;
 
 /*========== MuseUI组件配置 ==========*/

@@ -1,32 +1,11 @@
 [
   {
-    "id": "18",
-    "title": "这是一条来自牛焙网的帖子(LoadMore)",
-    "type": "text",
-    "author_avatar": "",
-    "author_name": "作者1",
-    "replies": 10,
-    "add_time": "2016-12-12 12:00:00"
-  },
-  {
-    "id": "19",
-    "title": "这是一条来自牛焙网的帖子(LoadMore)",
-    "type": "image",
-    "image_cnt": 1,
-    "image_src": "/src/assets/image/threadTest.jpg",
-    "author_avatar": "",
-    "author_name": "作者1",
-    "replies": 10,
-    "add_time": "2016-12-12 12:00:00"
-  },
-  {
     "id": "20",
     "title": "这是一条来自牛焙网的帖子(LoadMore)",
-    "type": "image",
-    "image_cnt": 2,
-    "image_src": "/src/assets/image/threadTest.jpg",
-    "author_avatar": "",
-    "author_name": "作者1",
+    "type": "text",
+    "author_avatar": "/src/assets/image/threadTest.jpg",
+    "author_name": "大轮明王鸠摩智",
+    "like_cnt": 5,
     "replies": 10,
     "add_time": "2016-12-12 12:00:00"
   },
@@ -34,20 +13,46 @@
     "id": "21",
     "title": "这是一条来自牛焙网的帖子(LoadMore)",
     "type": "image",
-    "image_cnt": 3,
+    "image_cnt": 1,
     "image_src": "/src/assets/image/threadTest.jpg",
-    "author_avatar": "",
-    "author_name": "作者1",
+    "author_avatar": "/src/assets/image/threadTest.jpg",
+    "author_name": "大轮明王鸠摩智",
+    "like_cnt": 5,
     "replies": 10,
     "add_time": "2016-12-12 12:00:00"
   },
   {
     "id": "22",
     "title": "这是一条来自牛焙网的帖子(LoadMore)",
+    "type": "image",
+    "image_cnt": 2,
+    "image_src": "/src/assets/image/threadTest.jpg",
+    "author_avatar": "/src/assets/image/threadTest.jpg",
+    "author_name": "大轮明王鸠摩智",
+    "like_cnt": 5,
+    "replies": 10,
+    "add_time": "2016-12-12 12:00:00"
+  },
+  {
+    "id": "23",
+    "title": "这是一条来自牛焙网的帖子(LoadMore)",
+    "type": "image",
+    "image_cnt": 3,
+    "image_src": "/src/assets/image/threadTest.jpg",
+    "author_avatar": "/src/assets/image/threadTest.jpg",
+    "author_name": "大轮明王鸠摩智",
+    "like_cnt": 5,
+    "replies": 10,
+    "add_time": "2016-12-12 12:00:00"
+  },
+  {
+    "id": "24",
+    "title": "这是一条来自牛焙网的帖子(LoadMore)",
     "type": "video",
     "video_src": "/src/assets/video/threadTest.mp4",
-    "author_avatar": "",
-    "author_name": "作者1",
+    "author_avatar": "/src/assets/image/threadTest.jpg",
+    "author_name": "大轮明王鸠摩智",
+    "like_cnt": 5,
     "replies": 10,
     "add_time": "2016-12-12 12:00:00"
   }

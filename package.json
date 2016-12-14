@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "babel-polyfill": "*",
+    "lodash": "^4.17.2",
     "muse-ui": "^2.0.0-alpha.11",
     "vue": "^2.1.4",
     "vue-awesome-swiper": "^2.2.5",

@@ -124,7 +124,7 @@
         }
     }
 </script>
-<style>
+<style scoped>
     .mine_top {
         background: #000000 center top;
         background-size: 100% auto;

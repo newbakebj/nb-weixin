@@ -62,9 +62,10 @@
         </div>
         <!--帖子列表-->
         <div class="thread_list" id="threadList">
+            <mu-refresh-control :refreshing="refreshing" :trigger="trigger" @refresh="refreshThread"/>
             <mu-list>
                 <template v-for="thread in threads">
-                    <mu-list-item>
+                    <mu-list-item @click="peepDetail(thread)">
                         <thread-formatter :thread="thread"/>
                     </mu-list-item>
                     <mu-divider class="thread_list_divider"/>
@@ -95,6 +96,8 @@
                 curSwiper: 0,
                 categories: [],
                 threads: [],
+                refreshing: false,
+                trigger: null,
                 loading: false,
                 scroller: null,
                 loadingText: '正在玩命加载...',
@@ -111,6 +114,7 @@
              */
             this.$nextTick(function () {
                 // 对响应级数据进行赋值将导致update响应(在本DOM)
+                this.trigger = this.$el.querySelector('#threadList');
                 this.scroller = this.$el.querySelector('#threadList');
             });
             this.loadCategory();
@@ -120,39 +124,57 @@
             selectCity() {
                 alert('Selecting address.');
             },
-            showSharePopup() {
+            showSharePopup() {  // 显示Popover
                 this.isShareToPopupShown = true;
             },
-            closeSharePopup() {
+            closeSharePopup() {  // 关闭Popover
                 this.isShareToPopupShown = false;
             },
-            loadCategory() {
+            loadCategory() {  // 载入类目数据
                 this.$http.get('categories.json')
                     .then((response) => {
                         this.$set(this.$data, 'categories', response.data);
                     });
             },
-            changeCategory(index, categoryId) {
+            changeCategory(index, categoryId) {  // 变更类目
                 this.curSwiper = index;
             },
-            loadThread() {
+            loadThread() {  // 载入主题
                 this.$http.get('threads.json')
                     .then((response) => {
                         this.$set(this.$data, 'threads', response.data);
                     });
             },
-            loadMoreThread() {
+            refreshThread() {  // 下拉刷新
+                this.refreshing = true;
+//                loadThread();
+                this.$http.get('threadsRecent.json')
+                    .then((response) => {
+                        let threadsNew = response.data;
+                        this.$set(this.$data, 'threads', threadsNew.concat(this.threads));
+                        this.refreshing = false;
+                    });
+            },
+            loadMoreThread() {  // 加载更多主题
                 this.loading = true;
                 this.$http.get('threadsMore.json')
                     .then((response) => {
                         this.$set(this.$data, 'threads', this.threads.concat(response.data));
                         this.loading = false;
                     });
+            },
+            peepDetail(thread) {  // 查看详情
+                this.$router.push({
+                    name: 'threadDetail',
+                    params: {
+                        id: thread.id
+                    }
+                });
             }
         }
     }
 </script>
-<style>
+<style scoped>
     .header {
         position: fixed;
         top: 0;
@@ -244,7 +266,7 @@
         padding: 12px !important;
     }
     .thread_list .thread_list_divider {
-        width: 94%;
+        width: 97%;
         margin: auto !important;
     }
 </style>

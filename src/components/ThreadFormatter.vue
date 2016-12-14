@@ -2,48 +2,26 @@
 <!--用于根据帖子内容分成视频帖、文字帖、图片帖-->
 <template>
     <!--<div v-html="threadHtml"></div>-->
-    <!--<component :is="currentThreadType" :thread="thread"/>-->
-
-    <div style="height: 90px">
-        <div style="height: 100%; width: 60%; float: left">
-            <div style="height: 75%">
-                <table style="height: 100%; font-size: 14px; font-weight: bold; line-height: 22px">
-                    <tr><td style="vertical-align: middle">这是测试代码这是测试代码这是测试代码这是测试代码这是测试代码</td></tr>
-                </table>
-            </div>
-            <div style="height: 20%; margin-top: 5px;">
-                <span style="display: inline-block; margin-left: 5px;"><mu-avatar slot="left" icon="folder" :iconSize="18" :size="18" color="pink500"/></span>
-                <span style="display: inline-block; line-height: 22px; height: 22px; overflow: hidden; font-size: 10px;">大轮明王鸠摩智是也</span>
-                <span style="display: inline-block; float: right; line-height: 22px; height: 22px; overflow: hidden; font-size: 10px;">12评论</span></div>
-        </div>
-        <div style="float: right; width: 35%;">
-            <img src="../assets/image/threadTest.jpg" style="width: 100%; height: 90px; object-fit: cover"/>
-        </div>
-    </div>
-
+    <component :is="currentThreadType" :thread="thread"/>
 </template>
 
 <script>
     let textThreadComponent = {
         template: '' +
-        '<div>' +
-        '<div class="thread_title_text">' +
-        '<div>{{ thread.title }}</div>' +
+        '<div class="text_thread">' +
+        '<div class="text_thread_title">' +
+        '<table class="thread_title">' +
+        '<tr><td>{{ thread.title }}</td></tr>' +
+        '</table>' +
         '</div>' +
-        '<div class="thread_brief">' +
-        '<div class="thread_author_info">' +
-        '<span class="thread_author_avatar"><mu-avatar slot="left" icon="folder" :size="20"/></span>' +
-        '<span class="thread_author_name">{{ thread.author_name }}</span>' +
+        '<div class="thread_avatar">' +
+        '<div class="avatar">' +
+        '<span><mu-avatar slot="left" :src="thread.author_avatar" :iconSize="21" :size="21" color="pink500"/></span>' +
+        '<span>{{ thread.author_name }}</span>' +
         '</div>' +
-        '<div class="thread_replies_info">' +
-        '<mu-icon value="thumb_up" :size="18"/>' +
-        '<span class="thread_replies">{{ thread.replies }}</span>' +
+        '<div class="likes"><span>{{ thread.like_cnt }}赞</span><span>{{ thread.replies }}评论</span></div>' +
         '</div>' +
-        '<div class="thread_addtime_info">' +
-        '<span class="thread_addtime">{{ thread.add_time }}</span>' +
-        '</div>' +
-        '</div>' +
-        '</div>',
+        '</div>' ,
         /*
          * 若为运行时构建，则需要使用render而不是template
          * render中可引入插件babel-plugin-transform-vue-jsx
@@ -56,32 +34,42 @@
     };
     let imageThreadComponent = {
         template: '' +
-        '<div class="thread_image">' +
-        '<div class="thread_image_left">' +
-        '<div class="thread_image_title">' +
+        '<div class="image_thread">' +
+        '<div class="image_thread_left">' +
+        '<div class="image_thread_title">' +
+        '<table class="thread_title">' +
+        '<tr><td>{{ thread.title }}</td></tr>' +
+        '</table>' +
+        '</div>' +
+        '<div class="image_thread_avatar">' +
+        '<div class="avatar">' +
+        '<span><mu-avatar slot="left" :src="thread.author_avatar" :iconSize="21" :size="21" color="pink500"/></span>' +
+        '<span>{{ thread.author_name }}</span>' +
+        '</div>' +
+        '<div class="likes"><span>{{ thread.like_cnt }}赞</span><span>{{ thread.replies }}评论</span></div>' +
+        '</div>' +
+        '</div>' +
+        '<div class="image_thread_right">' +
+        '<img :src="thread.image_src" class="image"/>' +
+        '</div>' +
         '</div>' ,
         props: ['thread']
     };
     let videoThreadComponent = {
         template: '' +
-        '<div>' +
-        '<div class="thread_title_video">' +
-        '<video><source :src="thread.video_src" type="video/mp4"/></video><span>{{ thread.image_cnt }}</span>' +
+        '<div class="video_thread">' +
+        '<div class="video_thread_title">{{ thread.title }}</div>' +
+        '<div class="video_thread_frame">' +
+        '<video :src="thread.video_src" controls="controls" width="100%">您的浏览器不支持 video 标签。</video>' +
         '</div>' +
-        '<div class="thread_brief">' +
-        '<div class="thread_author_info">' +
-        '<span class="thread_author_avatar"><mu-avatar slot="left" icon="folder" :size="20"/></span>' +
-        '<span class="thread_author_name">{{ thread.author_name }}</span>' +
+        '<div class="thread_avatar">' +
+        '<div class="avatar">' +
+        '<span><mu-avatar slot="left" :src="thread.author_avatar" :iconSize="21" :size="21" color="pink500"/></span>' +
+        '<span>{{ thread.author_name }}</span>' +
         '</div>' +
-        '<div class="thread_replies_info">' +
-        '<mu-icon value="thumb_up" :size="18"/>' +
-        '<span class="thread_replies">{{ thread.replies }}</span>' +
+        '<div class="likes"><span>{{ thread.like_cnt }}赞</span><span>{{ thread.replies }}评论</span></div>' +
         '</div>' +
-        '<div class="thread_addtime_info">' +
-        '<span class="thread_addtime">{{ thread.add_time }}</span>' +
-        '</div>' +
-        '</div>' +
-        '</div>',
+        '</div>' ,
         props: ['thread']
     };
     let componentMap = {
@@ -129,5 +117,61 @@
 </script>
 
 <style>
-
+    .thread_title {
+        height: 100%; font-size: 14px; font-weight: bold; line-height: 22px;
+    }
+    .thread_title td {
+        vertical-align: middle;
+    }
+    .thread_avatar {
+        margin-top: 5px; width: 100%;
+    }
+    .thread_avatar span {
+        display: inline-block; line-height: 25px; height: 22px; overflow: hidden; font-size: 10px;
+    }
+    .thread_avatar .avatar {
+        display: inline-block; float: left; width: 60%;
+    }
+    .thread_avatar .likes {
+        display: inline-block; float: right; width: 20%;
+    }
+    .thread_avatar .likes span {
+        display: inline-block; width: 50%; text-align: right;
+    }
+    .image_thread {
+        height: 90px;
+    }
+    .image_thread_left {
+        height: 100%; width: 60%; float: left;
+    }
+    .image_thread_title {
+        height: 75%;
+    }
+    .image_thread_avatar {
+        height: 20%; margin-top: 5px; width: 100%;
+    }
+    .image_thread_avatar span {
+        display: inline-block; line-height: 25px; height: 22px; overflow: hidden; font-size: 10px;
+    }
+    .image_thread_avatar .avatar {
+        display: inline-block; float: left; width: 60%;
+    }
+    .image_thread_avatar .likes {
+        display: inline-block; float: right; width: 40%;
+    }
+    .image_thread_avatar .likes span {
+        display: inline-block; width: 45%; text-align: right;
+    }
+    .image_thread_right {
+        float: right; width: 35%;
+    }
+    .image_thread_right img {
+        width: 100%; height: 90px; object-fit: cover
+    }
+    .video_thread_title {
+        font-size: 14px; font-weight: bold; line-height: 22px;
+    }
+    .video_thread_frame {
+        width: 100%;
+    }
 </style>

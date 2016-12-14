@@ -11,8 +11,8 @@
   <meta content="telephone=no" name="format-detection" />
   <!--<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">-->
   <!--<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">-->
-  <link rel="stylesheet" href="./src/assets/fonts/material-design-icons/material-icons.css">
-  <link rel="stylesheet" href="./src/assets/css/public.css">
+  <link rel="stylesheet" href="/src/assets/fonts/material-design-icons/material-icons.css">
+  <link rel="stylesheet" href="/src/assets/css/public.css">
 </head>
 <body>
 <div id="app"></div>
