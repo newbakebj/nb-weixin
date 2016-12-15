@@ -16,8 +16,8 @@
         '</div>' +
         '<div class="thread_avatar">' +
         '<div class="avatar">' +
-        '<span><mu-avatar slot="left" :src="thread.author_avatar" :iconSize="21" :size="21" color="pink500"/></span>' +
-        '<span>{{ thread.author_name }}</span>' +
+        '<span><mu-avatar slot="left" :src="thread.author.avatar" :iconSize="21" :size="21" color="pink500"/></span>' +
+        '<span>{{ thread.author.name }}</span>' +
         '</div>' +
         '<div class="likes"><span>{{ thread.like_cnt }}赞</span><span>{{ thread.replies }}评论</span></div>' +
         '</div>' +
@@ -43,14 +43,15 @@
         '</div>' +
         '<div class="image_thread_avatar">' +
         '<div class="avatar">' +
-        '<span><mu-avatar slot="left" :src="thread.author_avatar" :iconSize="21" :size="21" color="pink500"/></span>' +
-        '<span>{{ thread.author_name }}</span>' +
+        '<span><mu-avatar slot="left" :src="thread.author.avatar" :iconSize="21" :size="21" color="pink500"/></span>' +
+        '<span>{{ thread.author.name }}</span>' +
         '</div>' +
         '<div class="likes"><span>{{ thread.like_cnt }}赞</span><span>{{ thread.replies }}评论</span></div>' +
         '</div>' +
         '</div>' +
         '<div class="image_thread_right">' +
         '<img :src="thread.image_src" class="image"/>' +
+        '<div class="image_cnt" v-show="1 < thread.image_cnt"><span>{{ thread.image_cnt }}图</span></div>' +
         '</div>' +
         '</div>' ,
         props: ['thread']
@@ -64,8 +65,8 @@
         '</div>' +
         '<div class="thread_avatar">' +
         '<div class="avatar">' +
-        '<span><mu-avatar slot="left" :src="thread.author_avatar" :iconSize="21" :size="21" color="pink500"/></span>' +
-        '<span>{{ thread.author_name }}</span>' +
+        '<span><mu-avatar slot="left" :src="thread.author.avatar" :iconSize="21" :size="21" color="pink500"/></span>' +
+        '<span>{{ thread.author.name }}</span>' +
         '</div>' +
         '<div class="likes"><span>{{ thread.like_cnt }}赞</span><span>{{ thread.replies }}评论</span></div>' +
         '</div>' +
@@ -167,6 +168,19 @@
     }
     .image_thread_right img {
         width: 100%; height: 90px; object-fit: cover
+    }
+    .image_thread_right .image_cnt {
+        position: absolute;
+        bottom: 30px;
+        right: 30px;
+        font-size: 11px;
+        font-weight: bold;
+        background-color: rgba(0,0,0,0.6);
+        padding: 0 12px;
+        border-radius: 10px;
+    }
+    .image_thread_right .image_cnt span {
+        color: #fff;
     }
     .video_thread_title {
         font-size: 14px; font-weight: bold; line-height: 22px;

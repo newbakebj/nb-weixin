@@ -1,0 +1,35 @@
+[
+  {
+    "id": "0",
+    "thread_id": "0",
+    "title": "大师就是大师",
+    "content": "我去，大师就是大师啊。高大上！！！",
+    "author": {
+      "id": "0",
+      "name": "路人甲",
+      "avatar": "/src/assets/image/avatar_1.png"
+    }
+  },
+  {
+    "id": "1",
+    "thread_id": "0",
+    "title": "渣渣",
+    "content": "就这技术，在下一分钟能做十个。[手动弱]",
+    "author": {
+      "id": "1",
+      "name": "大燕后裔慕容复",
+      "avatar": "/src/assets/image/avatar_1.png"
+    }
+  },
+  {
+    "id": "2",
+    "thread_id": "0",
+    "title": "明王请自重",
+    "content": "别怪老衲忠言逆耳，明王技术不到位，强行练习只会走火入魔。",
+    "author": {
+      "id": "2",
+      "name": "扫地者也",
+      "avatar": "/src/assets/image/avatar_1.png"
+    }
+  }
+]

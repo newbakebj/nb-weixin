@@ -1,0 +1,20 @@
+[
+  {
+    "id": "0",
+    "title": "这是小僧推荐的第一款商品",
+    "author": "大轮明王鸠摩智",
+    "image_src": "/src/assets/image/relatedGoodTest.jpg"
+  },
+  {
+    "id": "1",
+    "title": "这是小僧推荐的第二款商品",
+    "author": "大轮明王鸠摩智",
+    "image_src": "/src/assets/image/relatedGoodTest.jpg"
+  },
+  {
+    "id": "2",
+    "title": "这是小僧推荐的第三款商品",
+    "author": "大轮明王鸠摩智",
+    "image_src": "/src/assets/image/relatedGoodTest.jpg"
+  }
+]

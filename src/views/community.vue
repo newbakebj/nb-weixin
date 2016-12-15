@@ -17,48 +17,6 @@
                        @click="changeCategory(index, category.id)">{{ category.name }}</a>
                 </swiper-slide>
             </swiper>
-            <!--标题栏信息按钮弹出面板-->
-            <mu-popup position="bottom" popupClass="share-to-popup m_width" :open="isShareToPopupShown"
-                      @close="closeSharePopup">
-                <table class="share_to_table">
-                    <tr>
-                        <td>
-                            <img src="../../src/assets/img/bottom_popup/wx_moments.png"/>
-                            <br/>
-                            <span>微信朋友圈</span>
-                        </td>
-                        <td>
-                            <img src="../../src/assets/img/bottom_popup/wx.png"/>
-                            <br/>
-                            <span>微信好友</span>
-                        </td>
-                        <td>
-                            <img src="../../src/assets/img/bottom_popup/qq.png"/>
-                            <br/>
-                            <span>QQ好友</span>
-                        </td>
-                        <td>
-                            <img src="../../src/assets/img/bottom_popup/qq_zone.png"/>
-                            <br/>
-                            <span>QQ空间</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <img src="../../src/assets/img/bottom_popup/night.png"/>
-                            <br/>
-                            <span>夜间模式</span>
-                        </td>
-                        <td>
-                            <img src="../../src/assets/img/bottom_popup/tip_off.png"/>
-                            <br/>
-                            <span>举报</span>
-                        </td>
-                    </tr>
-                </table>
-                <!--<mu-divider />-->
-                <mu-raised-button label="取消" fullWidth @click="closeSharePopup"/>
-            </mu-popup>
         </div>
         <!--帖子列表-->
         <div class="thread_list" id="threadList">
@@ -86,7 +44,6 @@
         data() {
             return {
                 city: '选择城市',
-                isShareToPopupShown: false,
                 swiperOption: {
                     autoHeight: true,
                     slidesPerView: 4,
@@ -125,10 +82,8 @@
                 alert('Selecting address.');
             },
             showSharePopup() {  // 显示Popover
-                this.isShareToPopupShown = true;
-            },
-            closeSharePopup() {  // 关闭Popover
-                this.isShareToPopupShown = false;
+                // 对于路由视图，不认定为父子组件作用域。需要使用$router.app作用通信栈，listener同。
+                this.$router.app.$emit('popover', true);
             },
             loadCategory() {  // 载入类目数据
                 this.$http.get('categories.json')
@@ -202,41 +157,6 @@
 
     .community_search i {
         margin-top: 5px;
-    }
-
-    .share-to-popup {
-        color: red;
-    }
-
-    .share_to_table {
-        width: 100%;
-        text-align: center;
-        padding-left: 15px;
-        padding-right: 15px;
-        color: #000;
-    }
-
-    .share_to_table td {
-        padding: 5px 5px;
-        height: 75px;
-    }
-
-    .share_to_table img {
-        width: auto;
-        height: auto;
-        max-width: 95%;
-        max-height: 95%;
-        border-radius: 50%;
-    }
-
-    .share_to_table br {
-        line-height: 0;
-    }
-
-    .share_to_table span {
-        display: block;
-        margin-top: -5px;
-        font-size: 10px;
     }
 
     .category_swiper {
