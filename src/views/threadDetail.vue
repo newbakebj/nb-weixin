@@ -12,12 +12,10 @@
                 <div class="thread_title">{{ thread.title }}</div>
                 <div class="thread_userinfo">
                     <div>
-                        <!--<mu-avatar :src="thread.author.avatar" :size="50"/>-->
-                        <mu-avatar :src="author.avatar" :size="50"/>
+                        <mu-avatar :src="thread.author.avatar" :size="50"/>
                     </div>
                     <div class="thread_avatar_info">
-                        <!--<div>{{ thread.author.name }}</div>-->
-                        <div>{{ author.name }}</div>
+                        <div>{{ thread.author.name }}</div>
                         <div>{{ thread.add_time }}</div>
                     </div>
                     <div class="focus">
@@ -26,8 +24,7 @@
                 </div>
                 <div v-html="thread.content" class="thread_content"></div>
                 <div class="thread_content_ps">
-                    <!--<p>本文来源于焙客<span class="author">{{ thread.author.name }}</span> | 未经许可禁止转载、摘编、复制及镜像等使用</p>-->
-                    <p>本文来源于焙客<span class="author">{{ author.name }}</span> | 未经许可禁止转载、摘编、复制及镜像等使用</p>
+                    <p>本文来源于焙客<span class="author">{{ thread.author.name }}</span> | 未经许可禁止转载、摘编、复制及镜像等使用</p>
                     <p><span class="forward">欢迎转发、群发给你的朋友、朋友圈</span></p>
                     <p>本文为由牛焙网焙客发布，不代表牛焙网立场</p>
                 </div>
@@ -40,14 +37,14 @@
                     </div>
                 </div>
             </div>
-            <mu-divider class="content_add_divider"/>
+            <mu-divider class="content_ad_divider"/>
             <!--相关商品-->
             <div class="related_good_swiper">
                 <swiper :options="swiperOption">
                     <swiper-slide v-for="relatedGood in relatedGoods">
                         <div>
                             <mu-grid-tile>
-                                <img :src="relatedGood.image_src" style="width: 100%; height: 175px;"/>
+                                <img :src="relatedGood.image_src"/>
                                 <span slot="title">{{ relatedGood.title }}</span>
                                 <span slot="subTitle">{{ relatedGood.author }}</span>
                                 <mu-icon-button icon="star_border" slot="action"/>
@@ -60,7 +57,8 @@
             <!--主题回复-->
             <div class="thread_comment">
                 <mu-list>
-                    <mu-list-item :title="relatedComment.author.name" v-for="(relatedComment, index) in relatedComments">
+                    <mu-list-item :title="relatedComment.author.name" v-for="(relatedComment, index) in relatedComments"
+                                  titleClass="thread_comment_title">
                         <mu-avatar :src="relatedComment.author.avatar" slot="leftAvatar"/>
                         <span slot="describe">
                             {{ relatedComment.content }}
@@ -76,7 +74,10 @@
     export default {
         data() {
             return {
-                thread: {},
+                thread: {
+                    // Vue嵌套对象需要对内部对象进行声明，否则不可进行响应式引用及使用
+                    author: {}
+                },
                 author: {},
                 relatedGoods: [],
                 swiperOption: {
@@ -100,9 +101,8 @@
                         id: this.$route.params.id
                     }
                 }).then((response) => {
-                    this.$set(this.$data, 'thread', response.data);
-                    // 下面尼玛是怎么回事？不是响应式数据？
-                    this.$set(this.$data, 'author', response.data.author);
+                    this.thread = response.data;
+                    // 测试数据用，实际生产应该在发帖时将内容的HTML代码部分转义存储
                     this.thread.content = _.unescape(this.thread.content);
                 });
             },
@@ -112,7 +112,7 @@
                         threadId: this.$route.params.id
                     }
                 }).then((response) => {
-                    this.$set(this.$data, 'relatedGoods', response.data);
+                    this.relatedGoods = response.data;
                 });
             },
             queryRelatedComment() {  // 根据主题ID获取相关评论
@@ -121,7 +121,7 @@
                         threadId: this.$route.params.id
                     }
                 }).then((response) => {
-                    this.$set(this.$data, 'relatedComments', response.data);
+                    this.relatedComments = response.data;
                 })
             }
         }
@@ -221,8 +221,9 @@
         width: 100px;
         border-radius: 20px;
     }
-    .content_add_divider {
-        height: 0px;
+
+    .content_ad_divider {
+        height: 0;
     }
 
     .related_good_swiper {
@@ -241,9 +242,11 @@
     }
 
     .comment_title {
-        font-size: 14px !important;
-        font-weight: bold !important;
-        color: blue !important;
+    }
+
+    .thread_comment_title {
+        color: red !important;
+        font-weight: bold;
     }
 
 </style>

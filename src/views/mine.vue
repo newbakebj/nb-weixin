@@ -6,7 +6,7 @@
                 <mu-flexbox orient="vertical">
                     <mu-flexbox-item>
                         <div class="mine_profile text_c">
-                            <img src="../../src/assets/img/logo.png" alt="">
+                            <img src="/src/assets/img/logo.png" alt="">
                             <span>张三</span>
                         </div>
                     </mu-flexbox-item>
@@ -150,7 +150,7 @@
         font-size: 16px;
         height: 16px;
         line-height: 16px;
-        background: url(../../src/assets/img/sex_male.png) right 0 no-repeat;
+        background: url(/src/assets/img/sex_male.png) right 0 no-repeat;
         background-size: auto 100%;
         padding: 0 15px;
         margin: 10px 0 15px;

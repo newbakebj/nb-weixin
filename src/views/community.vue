@@ -88,7 +88,9 @@
             loadCategory() {  // 载入类目数据
                 this.$http.get('categories.json')
                     .then((response) => {
-                        this.$set(this.$data, 'categories', response.data);
+                        // Vue的$set主要用于属性被添加的响应问题，对于已定义的响应式数据，可直接使用赋值
+//                        this.$set(this.$data, 'categories', response.data);
+                        this.categories = response.data;
                     });
             },
             changeCategory(index, categoryId) {  // 变更类目
@@ -97,7 +99,7 @@
             loadThread() {  // 载入主题
                 this.$http.get('threads.json')
                     .then((response) => {
-                        this.$set(this.$data, 'threads', response.data);
+                        this.threads = response.data;
                     });
             },
             refreshThread() {  // 下拉刷新
@@ -106,7 +108,7 @@
                 this.$http.get('threadsRecent.json')
                     .then((response) => {
                         let threadsNew = response.data;
-                        this.$set(this.$data, 'threads', threadsNew.concat(this.threads));
+                        this.threads = threadsNew.concat(this.threads);
                         this.refreshing = false;
                     });
             },
@@ -114,7 +116,7 @@
                 this.loading = true;
                 this.$http.get('threadsMore.json')
                     .then((response) => {
-                        this.$set(this.$data, 'threads', this.threads.concat(response.data));
+                        this.threads = this.threads.concat(response.data);
                         this.loading = false;
                     });
             },

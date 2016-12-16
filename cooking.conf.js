@@ -13,6 +13,10 @@ cooking.set({
     template: './indexNew.tpl',
 
     devServer: {
+        /*
+         * 根据cooking源码，调整devServer的监听地址，需要使用“hostname”，
+         * 而非webpack-dev-server(CLI-Only)的参数“host”
+         */
         hostname: '0.0.0.0',
         port: 9090,
         publicPath: '/',
@@ -34,7 +38,7 @@ cooking.set({
     extractCSS: '[name].[contenthash:7].css',
     alias: {
         'src': path.join(__dirname, 'src'),
-        'vue$': 'vue/dist/vue'
+        'vue$': 'vue/dist/vue'  // 若需要使用template等编译语法，需要使用vue.js而非默认的vue.rutime.common.js
     },
     extends: ['vue2', 'less', 'autoprefixer']
 });
