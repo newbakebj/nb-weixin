@@ -58,11 +58,17 @@
             <div class="thread_comment">
                 <mu-list>
                     <mu-list-item :title="relatedComment.author.name" v-for="(relatedComment, index) in relatedComments"
-                                  titleClass="thread_comment_title">
+                                  titleClass="thread_detail_comment_title">
                         <mu-avatar :src="relatedComment.author.avatar" slot="leftAvatar"/>
-                        <span slot="describe">
-                            {{ relatedComment.content }}
-                        </span>
+                        <!--<div slot="describe">-->
+                            <!--<div>-->
+                                <!--{{ relatedComment.content }}-->
+                            <!--</div>-->
+
+                        <!--</div>-->
+                        <div>
+                            一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前
+                        </div>
                     </mu-list-item>
                 </mu-list>
             </div>
@@ -240,13 +246,11 @@
         width: 100%;
         object-fit: cover
     }
-
-    .comment_title {
+</style>
+<style>
+    .thread_detail_comment_title {
+        color: blue !important;
+        font-weight: bold !important;
+        font-size: 12px !important;
     }
-
-    .thread_comment_title {
-        color: red !important;
-        font-weight: bold;
-    }
-
 </style>

@@ -6,7 +6,7 @@
             <!--标题栏-->
             <mu-appbar>
                 <mu-flat-button slot="left" :label="city" icon="arrow_drop_down" hoverColor="pink200" labelPosition="before"
-                                class="city_choose" @click="selectCity"/>
+                                class="city_choose community_city_choose" @click="selectCity"/>
                 <mu-text-field slot="left" icon="search" hintText="寻找好帖" class="community_search"/>
                 <mu-icon-button slot="right" icon="more_vert" @click="showSharePopup"/>
             </mu-appbar>
@@ -19,7 +19,7 @@
             </swiper>
         </div>
         <!--帖子列表-->
-        <div class="thread_list" id="threadList">
+        <div class="thread_list community_thread_list" id="threadList">
             <mu-refresh-control :refreshing="refreshing" :trigger="trigger" @refresh="refreshThread"/>
             <mu-list>
                 <template v-for="thread in threads">
@@ -131,6 +131,30 @@
         }
     }
 </script>
+<!--
+ 由于vue-loader的data-v-*生成机制不明，
+ 导致子组件生成的DOM结构中只在子组件“根DOM”节点。
+ 如，使用muse-ui组件，对muse-ui组件相关样式进行调整时，
+ 若style为scoped，则根据vue-loader的css data-v-*生成机制，只会对最末选择器加[data-v-*]属性选择，而如上所述，只会在muse-ui的“根dom”节点含有data-v-*属性
+ 因此无法定位至muse-ui组件内部的dom，无法生效样式表
+ 因此，暂时采用如下方式：
+    对外来引用组件进行样式调整时，使用全局作用域style。(但保证对该组件进行样式调整时，有父级可区分该scope的选择器用于不对其他组件产生干扰)
+-->
+<style>
+    .community_city_choose .mu-flat-button-label {
+        /*由于scoped影响，不生效，暂时不对muse-ui相关组件进行样式重定义*/
+        padding-left: 0;
+        padding-right: 0 !important;
+    }
+    .community_search .mu-text-field-input {
+        /*由于scoped影响，不生效，暂时不对muse-ui相关组件进行样式重定义*/
+        color: #fff !important;
+    }
+    .community_thread_list .mu-item {
+        /*由于scoped影响，不生效，暂时不对muse-ui相关组件进行样式重定义*/
+        padding: 12px !important;
+    }
+</style>
 <style scoped>
     .header {
         position: fixed;
@@ -143,18 +167,9 @@
         color: #fff;
     }
 
-    .city_choose .mu-flat-button-label {
-        padding-left: 0;
-        padding-right: 0 !important;
-    }
-
     .community_search {
         font-size: 13px;
         width: 200px;
-    }
-
-    .community_search .mu-text-field-input {
-        color: #fff;
     }
 
     .community_search i {
@@ -184,9 +199,7 @@
         overflow: auto;
         overflow-scrolling: touch;
     }
-    .thread_list .mu-item {
-        padding: 12px !important;
-    }
+
     .thread_list .thread_list_divider {
         width: 97%;
         margin: auto !important;

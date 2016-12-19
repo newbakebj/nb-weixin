@@ -232,14 +232,26 @@
         margin-top: 8px;
     }
 
-    .mine_item {
-        /*margin-bottom: 50px;*/
-    }
-
     .mine_item .mu-list {
         margin-top: -5px;
         padding: 0;
     }
 
+    /*
+     * 测试代码：
+     * 由于本style为scoped，则样式自动在最末选择器加data-v-*，即最终生成的选择器为“.mine div[data-v-*]”
+     * 而由community.vue style部分的相关分析，引入的外来组件，只会对“根DOM”节点加data-v-*属性，内部节点均不包含该属性
+     * 因此生成的目的DOM节点为“.mine_item div”
+     * 故无法选中及生效样式
+     * 若需要生效，则仿照community.vue中介绍设置为全局选择器。(如最下style所示)
+     */
+    .mine_item div {
+        /*color: red !important;*/
+    }
 
+</style>
+<style>
+    .mine_item div {
+        /*color: red !important;*/
+    }
 </style>
