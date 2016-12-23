@@ -2,17 +2,17 @@
 <template>
     <mu-flexbox orient="vertical" class="pb60">
         <mu-flexbox-item>
-            <div id="profile" class="mine_top m_width text_c">
+            <div id="profile" class="mine-top text-c">
                 <mu-flexbox orient="vertical">
                     <mu-flexbox-item>
-                        <div class="mine_profile text_c">
+                        <div class="mine-profile text-c">
                             <img src="/src/assets/img/logo.png" alt="">
                             <span>张三</span>
                         </div>
                     </mu-flexbox-item>
                     <mu-flexbox-item>
-                        <mu-flexbox class="mine_info">
-                            <mu-flexbox-item class="info_1">
+                        <mu-flexbox class="mine-info">
+                            <mu-flexbox-item class="info-1">
                                 <ul>
                                     <li>
                                         <span class="val">100</span>
@@ -28,8 +28,8 @@
                                     </li>
                                 </ul>
                             </mu-flexbox-item>
-                            <mu-flexbox-item class="info_2">
-                                <mu-flat-button label="设置" icon="settings" class="mine_setting"></mu-flat-button>
+                            <mu-flexbox-item class="info-2">
+                                <mu-flat-button label="设置" icon="settings" class="mine-setting"></mu-flat-button>
                             </mu-flexbox-item>
                         </mu-flexbox>
                     </mu-flexbox-item>
@@ -37,7 +37,7 @@
             </div>
         </mu-flexbox-item>
         <mu-flexbox-item>
-            <div class="mine_order m_width">
+            <div class="mine-order">
                 <mu-list>
                     <mu-list-item title="我的订单" disabled>
                         <mu-flat-button slot="after" labelPosition="before" icon="navigate_next" hoverColor="#fff" label="查看所有订单"/>
@@ -85,12 +85,12 @@
                             </td>
                         </tr>
                     </table>
-                    <mu-divider class="single_divider m_width"/>
+                    <mu-divider class="single-divider"/>
                 </div>
             </div>
         </mu-flexbox-item>
         <mu-flexbox-item>
-            <div class="mine_item m_width">
+            <div class="mine_item">
                 <mu-list>
                     <mu-list-item title="我的收货地址">
                         <mu-icon slot="left" value="place"/>
@@ -125,16 +125,16 @@
     }
 </script>
 <style scoped>
-    .mine_top {
+    .mine-top {
         background: #000000 center top;
         background-size: 100% auto;
     }
 
-    .mine_profile {
+    .mine-profile {
         padding-top: 40px;
     }
 
-    .mine_profile img {
+    .mine-profile img {
         width: 70px;
         height: 70px;
         margin: 0 auto;
@@ -143,7 +143,7 @@
         border: 2px solid #fff;
     }
 
-    .mine_profile span {
+    .mine-profile span {
         display: inline-block;
         color: #fff;
         font-weight: bold;
@@ -156,19 +156,19 @@
         margin: 10px 0 15px;
     }
 
-    .mine_info {
+    .mine-info {
         clear: both;
     }
 
-    .mine_info .info_1 {
+    .mine-info .info-1 {
         width: 75%;
     }
 
-    .mine_info .info_1 {
+    .mine-info .info-1 {
         width: 25%;
     }
 
-    .mine_info ul li {
+    .mine-info ul li {
         width: 55px;
         float: left;
         line-height: 20px;
@@ -176,11 +176,11 @@
         margin-bottom: 5px;
     }
 
-    .mine_info ul li:last-child {
+    .mine-info ul li:last-child {
         border-right: none;
     }
 
-    .mine_info ul li span.val {
+    .mine-info ul li span.val {
         color: #fff;
         font-weight: bold;
         font-size: 16px;
@@ -190,7 +190,7 @@
         text-align: center;
     }
 
-    .mine_info ul li span.inf {
+    .mine-info ul li span.inf {
         display: inline-block;
         font-size: 12px;
         color: #888888;
@@ -198,41 +198,41 @@
         width: 100%;
     }
 
-    .mine_setting {
+    .mine-setting {
         float: right;
         width: 25%;
         margin-right: 15px;
         color: #888;
     }
 
-    .mine_order {
+    .mine-order {
         margin-top: -8px;
     }
 
-    .mine_order .mu-list {
+    .mine-order .mu-list {
         padding: 0;
     }
 
-    .mine_order .mu-item {
+    .mine-order .mu-item {
         padding: 8px;
     }
 
-    .mine_order table {
+    .mine-order table {
         margin-top: 15px;
         width: 100%;
     }
 
-    .mine_order table td {
+    .mine-order table td {
         width: 25%;
         text-align: center;
     }
 
-    .single_divider {
+    .single-divider {
         height: 15px;
         margin-top: 8px;
     }
 
-    .mine_item .mu-list {
+    .mine-item .mu-list {
         margin-top: -5px;
         padding: 0;
     }
@@ -245,13 +245,13 @@
      * 故无法选中及生效样式
      * 若需要生效，则仿照community.vue中介绍设置为全局选择器。(如最下style所示)
      */
-    .mine_item div {
+    .mine-item div {
         /*color: red !important;*/
     }
 
 </style>
 <style>
-    .mine_item div {
+    .mine-item div {
         /*color: red !important;*/
     }
 </style>

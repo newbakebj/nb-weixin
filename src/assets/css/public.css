@@ -1,27 +1,74 @@
 @charset "UTF-8";
 
-html { font-size: 14px; }
+html {
+    font-size: 14px;
+}
 
-div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td {margin: 0; padding: 0; }
-h1,h2,h3,h4,h5,h6,p { margin: 0; padding: 0; }
-ul,li{ list-style: none; }
+div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td {
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+    padding: 0;
+}
+
+ul, li {
+    list-style: none;
+}
 
 /*对齐*/
-.text_c{ text-align: center; }
-.text_l{ text-align: left; }
-.text_r{ text-align: right; }
-/*浮动*/
-.fll{ float:left;}
-.flr{ float:right;}
-.fcb{ clear:both;}
+.text-c {
+    text-align: center;
+}
 
-/*宽高*/
-.m_width { width: 100%;
-    min-width:320px; max-width: 750px; margin: 0 auto; left: 0; right: 0;}
+.text-l {
+    text-align: left;
+}
+
+.text-r {
+    text-align: right;
+}
+
+/*浮动*/
+.fll {
+    float: left;
+}
+
+.flr {
+    float: right;
+}
+
+.fcb {
+    clear: both;
+}
+
+/*系统主容器宽高*/
+.sys-container {
+    width: 100%;
+    min-width: 320px;
+    max-width: 750px;
+    margin: 0 auto;
+    position: relative;
+    left: 0;
+    right: 0;
+}
+
+/*系统内部容器宽高*/
+.container {
+    width: 100%;
+    min-height: 100%;
+    height: auto;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
 
 /*位置*/
-.pb60 { padding-bottom: 60px; }
-
+.pb60 {
+    padding-bottom: 60px;
+}
 
 /*响应式页面自适应*/
 /*由于muse-ui不支持响应式，暂时不采用响应式布局*/

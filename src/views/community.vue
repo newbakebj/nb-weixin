@@ -1,17 +1,17 @@
 <!--社区首页-->
 <template>
-    <div class="m_width pb60">
+    <div>
         <!--页头-->
-        <div class="header m_width">
+        <div class="header">
             <!--标题栏-->
             <mu-appbar>
                 <mu-flat-button slot="left" :label="city" icon="arrow_drop_down" hoverColor="pink200" labelPosition="before"
-                                class="city_choose community_city_choose" @click="selectCity"/>
-                <mu-text-field slot="left" icon="search" hintText="寻找好帖" class="community_search"/>
-                <mu-icon-button slot="right" icon="more_vert" @click="showSharePopup"/>
+                                class="city-choose community-city-choose" @click="selectCity"/>
+                <mu-text-field slot="left" icon="search" hintText="寻找好帖" class="community-search"/>
+                <mu-icon-button slot="right" icon="more_vert" @click="showShareSheet"/>
             </mu-appbar>
             <!--滑动容器，显示主要类目-->
-            <swiper :options="swiperOption" class="category_swiper">
+            <swiper :options="swiperOption" class="category-swiper">
                 <swiper-slide v-for="(category, index) in categories">
                     <a href="javascript:void(0);" :class="{ cur_swiper: (index == curSwiper) }"
                        @click="changeCategory(index, category.id)">{{ category.name }}</a>
@@ -19,27 +19,38 @@
             </swiper>
         </div>
         <!--帖子列表-->
-        <div class="thread_list community_thread_list" id="threadList">
+        <div class="thread-list community-thread-list" id="threadList">
             <mu-refresh-control :refreshing="refreshing" :trigger="trigger" @refresh="refreshThread"/>
             <mu-list>
                 <template v-for="thread in threads">
                     <mu-list-item @click="peepDetail(thread)">
                         <thread-formatter :thread="thread"/>
                     </mu-list-item>
-                    <mu-divider class="thread_list_divider"/>
+                    <mu-divider class="thread-list-divider"/>
                 </template>
             </mu-list>
             <mu-infinite-scroll :scroller="scroller" :loading="loading" loadingText="玩命加载中..." @load="loadMoreThread"/>
         </div>
+
+        <!--分享底部弹出面板-->
+        <share-sheet/>
     </div>
 </template>
 <script>
     import threadFormatter from '../components/ThreadFormatter.vue';
+    import shareSheet from '../components/ShareSheet.vue';
 
     export default {
         name: 'community',
         components: {
-            'thread-formatter': threadFormatter
+            'thread-formatter': threadFormatter,
+            'share-sheet': shareSheet
+        },
+        beforeRouteEnter(to, from, next) {
+            next(vm => {
+                // 将使用嵌套路由，而非动态调整底部导航栏显示
+//                vm.$router.app.$emit('bottomnav', true);
+            });
         },
         data() {
             return {
@@ -57,7 +68,7 @@
                 trigger: null,
                 loading: false,
                 scroller: null,
-                loadingText: '正在玩命加载...',
+                loadingText: '正在玩命加载...'
             };
         },
         mounted() {
@@ -81,9 +92,11 @@
             selectCity() {
                 alert('Selecting address.');
             },
-            showSharePopup() {  // 显示Popover
+            showShareSheet() {  // 显示bottomsheet
+                // 考虑到后期应用扩大，将使用vuex而不是事件传送
                 // 对于路由视图，不认定为父子组件作用域。需要使用$router.app作用通信栈，listener同。
-                this.$router.app.$emit('popover', true);
+                this.$router.app.$emit('sharesheet', true);
+
             },
             loadCategory() {  // 载入类目数据
                 this.$http.get('categories.json')
@@ -141,16 +154,16 @@
     对外来引用组件进行样式调整时，使用全局作用域style。(但保证对该组件进行样式调整时，有父级可区分该scope的选择器用于不对其他组件产生干扰)
 -->
 <style>
-    .community_city_choose .mu-flat-button-label {
+    .community-city-choose .mu-flat-button-label {
         /*由于scoped影响，不生效，暂时不对muse-ui相关组件进行样式重定义*/
         padding-left: 0;
         padding-right: 0 !important;
     }
-    .community_search .mu-text-field-input {
+    .community-search .mu-text-field-input {
         /*由于scoped影响，不生效，暂时不对muse-ui相关组件进行样式重定义*/
         color: #fff !important;
     }
-    .community_thread_list .mu-item {
+    .community-thread-list .mu-item {
         /*由于scoped影响，不生效，暂时不对muse-ui相关组件进行样式重定义*/
         padding: 12px !important;
     }
@@ -160,47 +173,54 @@
         position: fixed;
         top: 0;
         z-index: 1;
+        /*采用绝对定位，与相对定位冲突，需要单独处理宽度*/
+        width: 100%;
+        min-width: 320px;
+        max-width: 750px;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
     }
-    .city_choose {
+    .city-choose {
         padding-left: 0;
         padding-right: 0 !important;
         color: #fff;
     }
 
-    .community_search {
+    .community-search {
         font-size: 13px;
         width: 200px;
     }
 
-    .community_search i {
+    .community-search i {
         margin-top: 5px;
     }
 
-    .category_swiper {
+    .category-swiper {
         padding: 10px 10px;
         text-align: center;
         font-size: 12px;
         background: #e4e4e4;
     }
 
-    .category_swiper a {
+    .category-swiper a {
         color: #000;
     }
 
-    .cur_swiper {
+    .cur-swiper {
         color: #ff5252 !important;
         font-weight: bold;
         border-bottom: #ff5252 1px solid;
     }
 
-    .thread_list {
+    .thread-list {
         margin-top: 100px;
         height: 1024px;
         overflow: auto;
         overflow-scrolling: touch;
     }
 
-    .thread_list .thread_list_divider {
+    .thread-list .thread-list-divider {
         width: 97%;
         margin: auto !important;
     }

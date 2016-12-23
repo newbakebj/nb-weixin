@@ -12,5 +12,7 @@
   "views": 12,
   "replies": 12,
   "like_cnt": 100,
-  "favorite_cnt": 50
+  "favorite_cnt": 50,
+  "like": 1,
+  "favorite": 0
 }
