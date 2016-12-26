@@ -5,7 +5,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
-import Vuex from 'vuex';
+import store from './store';
 import AwesomeSwiper from 'vue-awesome-swiper';
 import App from './appNew.vue';
 import MuseUI from 'muse-ui';  // 使用MuseUI
@@ -89,10 +89,6 @@ Vue.use(VueResource);
 Vue.http.options.root = '/src/assets/dataNew';
 Vue.http.options.emulateJSON = true;
 
-/*========== vuex组件配置 ==========*/
-// Vue启用Vuex
-Vue.use(Vuex);
-
 /*========== MuseUI组件配置 ==========*/
 Vue.use(MuseUI);
 
@@ -103,5 +99,8 @@ Vue.use(AwesomeSwiper);
 /*========== 挂载Vue实例至EL ==========*/
 new Vue({
     render: h => h(App),
-    router
+    // 注入vue-router
+    router,
+    // 注入vuex的store
+    store,
 }).$mount('#app');

@@ -47,25 +47,21 @@
 <script>
     export default {
         name: 'shareSheet',
-        props: [],
+        props: [
+            'isShareSheetShown'
+        ],
         data() {
-            return {
-                isShareSheetShown: false
-            };
-        },
-        mounted() {
-            // 考虑到后期应用扩大，将使用vuex而不是事件传送
-            let vm = this;
-            this.$router.app.$on('sharesheet', function (show) {
-                vm.isShareSheetShown = show;
-            });
+            return {};
         },
         methods: {
-            showShareSheet(show) {
-                this.isShareSheetShown = show;
-            },
+            // Event: closeShareSheet
             closeShareSheet() {  // 关闭shareSheet
-                this.isShareSheetShown = false;
+                /*
+                 * 由于Muse-UI的封装模式：对其进行深入封装时，要求改变父组件传入的Prop
+                 * 但根据Vue理论，不建议变更。只可使用事件进行响应
+                 * 父组件需要对“closeShareSheet”进行响应，变更Prop传入的isShareSheetShown变量
+                 */
+                this.$emit('closeShareSheet');
             }
         }
     }

@@ -18,13 +18,14 @@
 <script>
     export default {
         name: 'commentSheet',
-        props: [],
+        props: [
+            'isCommentSheetShown'
+        ],
         data() {
             return {
-                isCommentSheetShown: false,
                 threadId: null,
                 atCommentId: null,
-                content: null,
+                content: null
             };
         },
         mounted() {
@@ -39,8 +40,9 @@
             showCommentSheet(show) {
                 this.isCommentSheetShown = show;
             },
+            // Event: closeShareSheet
             closeCommentSheet() {  // 关闭commentSheet
-                this.isCommentSheetShown = false;
+                this.$emit('closeShareSheet');
             },
             comment() {  // 进行评论
                 // TODO

@@ -32,8 +32,8 @@
             <mu-infinite-scroll :scroller="scroller" :loading="loading" loadingText="玩命加载中..." @load="loadMoreThread"/>
         </div>
 
-        <!--分享底部弹出面板-->
-        <share-sheet/>
+        <!--底部分享弹出面板-->
+        <share-sheet :isShareSheetShown="isShareSheetShown" v-on:closeShareSheet="isShareSheetShown = !isShareSheetShown;"/>
     </div>
 </template>
 <script>
@@ -55,6 +55,7 @@
         data() {
             return {
                 city: '选择城市',
+                isShareSheetShown: false,
                 swiperOption: {
                     autoHeight: true,
                     slidesPerView: 4,
@@ -93,10 +94,11 @@
                 alert('Selecting address.');
             },
             showShareSheet() {  // 显示bottomsheet
-                // 考虑到后期应用扩大，将使用vuex而不是事件传送
-                // 对于路由视图，不认定为父子组件作用域。需要使用$router.app作用通信栈，listener同。
-                this.$router.app.$emit('sharesheet', true);
+                // 对于路由视图，不认定为父子组件作用域。需要使用$router.app作为通信栈，listener同。
+                // 现反向使用，将ShareSheet作为子组件引入使用。因而不使用如下事件
+                /*this.$router.app.$emit('sharesheet', true);*/
 
+                this.isShareSheetShown = true;
             },
             loadCategory() {  // 载入类目数据
                 this.$http.get('categories.json')
