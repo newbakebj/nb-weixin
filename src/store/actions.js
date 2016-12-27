@@ -1,13 +1,13 @@
 // 根域actions
 import * as types from './mutation-types';
+import Vue from 'vue';
 
 export default {
-    // 显示/隐藏分享面板
-    showOrHideShareSheet ({ commit }) {
-        commit(types.SHOW_SHARE_SHEET);
-    },
-    // 显示/隐藏评论面板
-    showOrHideCommentSheet ({ commit }) {
-        commit(types.SHOW_COMMENT_SHEET);
+    // 获取登录用户信息
+    getAuth({commit}) {
+        Vue.http.get('loginUserInfo.json')
+            .then(response => {
+                commit(types.SET_AUTH, response.data);
+            });
     }
 };

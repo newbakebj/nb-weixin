@@ -1,10 +1,11 @@
 <!--主题帖子详情页-->
 <template>
     <div>
+        <!--标题栏-->
         <div>
             <mu-appbar class="title-bar">
                 <mu-icon-button icon="navigate_before" slot="left" @click="$router.go(-1);"/>
-                <mu-icon-button icon="more_vert" slot="right" @click="$router.app.$emit('sharesheet', true);"/>
+                <mu-icon-button icon="more_vert" slot="right" @click="isShareSheetShown = true;"/>
             </mu-appbar>
         </div>
         <div class="main-body">
@@ -12,7 +13,7 @@
             <div>
                 <div class="thread-title">{{ thread.title }}</div>
                 <div class="thread-userinfo">
-                    <div>
+                    <div @click="peepUser(thread.author)">
                         <mu-avatar :src="thread.author.avatar" :size="50"/>
                     </div>
                     <div class="thread-avatar-info">
@@ -20,7 +21,10 @@
                         <div>{{ thread.add_time }}</div>
                     </div>
                     <div class="focus">
-                        <mu-raised-button label="关注" icon="add" primary/>
+                        <mu-raised-button :label="thread.author.focus ? '已关注' : '关注'"
+                                          :iconClass="{'checked': thread.author.focus}"
+                                          :labelClass="{'checked': thread.author.focus}" icon="add" primary
+                                          @click="focus(thread.author)"/>
                     </div>
                 </div>
                 <div v-html="thread.content" class="thread-content"></div>
@@ -32,11 +36,13 @@
                 <div class="like-info">
                     <div>
                         <mu-raised-button :label="String(thread.like_cnt)" icon="thumb_up" class="feedback"
-                                          :iconClass="{'checked': thread.like}" :labelClass="{'checked': thread.like}" @click="likeThread(thread)"/>
+                                          :iconClass="{'checked': thread.like}" :labelClass="{'checked': thread.like}"
+                                          @click="likeThread(thread)"/>
                     </div>
                     <div>
                         <mu-raised-button :label="String(thread.favorite_cnt)" icon="favorite" class="feedback"
-                                          :iconClass="{'checked': thread.favorite}" :labelClass="{'checked': thread.favorite}" @click="favoriteThread(thread)"/>
+                                          :iconClass="{'checked': thread.favorite}"
+                                          :labelClass="{'checked': thread.favorite}" @click="favoriteThread(thread)"/>
                     </div>
                 </div>
             </div>
@@ -70,10 +76,11 @@
                             <div>
                                 {{ relatedComment.content }}
                             </div>
-                            <!--<div>-->
-                            <!--一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前-->
-                            <!--一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前一小时前-->
-                            <!--</div>-->
+                        </div>
+                        <div class="comment-time">
+                            <span>{{ relatedComment.add_time | date(5) }}</span>
+                            ·
+                            <span>{{ 0 == relatedComment.replies ? '回复' : relatedComment.replies + '条回复' }}</span>
                         </div>
                         <div slot="right" class="thread-comment-replies"
                              :style="{color: (relatedComment.like ? 'red' : '')}"
@@ -87,30 +94,33 @@
         </div>
         <!--底部评论窗-->
         <div class="thread-comment-input">
-            <div class="comment-input" @click="comment(thread.id)">
+            <div class="comment-input" @click="showCommentSheet">
                 写评论...
             </div>
             <div class="comment-share">
-                <!--<span><mu-avatar icon="comment" :size="30"/></span>-->
-                <span @click.stop="goCommentAnchor">
+                <span @click="goCommentAnchor">
                     <mu-badge content="10" secondary class="comment-badge">
                         <mu-avatar icon="comment" :size="30"/>
                     </mu-badge>
                 </span>
-                <span @click.stop="favoriteThread(thread)">
+                <span @click="favoriteThread(thread)">
                     <mu-avatar icon="favorite" :size="30" :style="{color: thread.favorite ? 'red' : ''}"/>
                 </span>
-                <span @click.stop="$router.app.$emit('sharesheet', true);">
+                <span @click="isShareSheetShown = true;">
                     <mu-avatar icon="screen_share" :size="30"/>
                 </span>
             </div>
         </div>
 
-        <!--标题栏信息按钮弹出面板-->
-        <share-sheet/>
+        <!--底部分享弹出面板-->
+        <share-sheet :isShareSheetShown="isShareSheetShown" @closeShareSheet="isShareSheetShown = !isShareSheetShown;"/>
 
-        <!--评论弹出窗-->
-        <comment-sheet/>
+        <!--底部评论弹出窗-->
+        <comment-sheet :isCommentSheetShown="isCommentSheetShown"
+                       @closeCommentSheet="isCommentSheetShown = !isCommentSheetShown;"
+                       @comment="comment"/>
+        <mu-dialog :open="isCommentDoneDialogShown"
+                   :title="commentDoneMessage" @close="closeCommentDoneDialog"/>
     </div>
 </template>
 
@@ -126,7 +136,7 @@
         },
         beforeRouteEnter (to, from, next) {
             next(vm => {
-//                vm.$router.app.$emit('bottomnav', false);
+                /*vm.$router.app.$emit('bottomnav', false);*/
             });
         },
         data() {
@@ -135,7 +145,6 @@
                     // Vue嵌套对象需要对内部对象进行声明，否则不可进行响应式引用及使用
                     author: {}
                 },
-                author: {},
                 relatedGoods: [],
                 swiperOption: {
                     autoplay: 5000,
@@ -143,7 +152,11 @@
                     paginationClickable: true,
                     mousewheelControl: true
                 },
-                relatedComments: []
+                relatedComments: [],
+                isShareSheetShown: false,
+                isCommentSheetShown: false,
+                isCommentDoneDialogShown: false,
+                commentDoneMessage: null
             };
         },
         mounted() {
@@ -181,6 +194,11 @@
                     this.relatedComments = response.data;
                 })
             },
+            focus(baker) {
+                baker.focus = !baker.focus;
+                // TODO
+                // 请求后台，增加关注记录或者变更关注记录
+            },
             likeThread(thread) {
                 thread.like = !thread.like;
                 // TODO
@@ -190,30 +208,60 @@
                 thread.favorite = !thread.favorite;
                 // TODO
                 // 请求后台，增加收藏或者变更收藏记录
-                console.log('favorite: ' + thread);
+                console.log('favorite: ');
+                console.log(thread);
             },
             peepRelatedComment(relatedComment) {  // 查看当前评论详情
                 // TODO
                 // 打开评论详情页面
-                console.log('related comment: ' + relatedComment);
+                console.log('related comment: ');
+                console.log(relatedComment)
             },
             peepUser(user) {
                 // TODO
                 // 打开用户空间页面
-                console.log('user: ' + user);
-            },
-            comment(threadId) {
-                this.$router.app.$emit('commentsheet', true, threadId);
+                console.log('user: ');
+                console.log(user);
             },
             likeComment(relatedComment) {  // 对评论点赞
                 relatedComment.like = !relatedComment.like;
                 // TODO
                 // 请求后台，增加点赞或者变更点赞记录
-                console.log('like: ' + relatedComment);
+                console.log('like: ');
+                console.log(relatedComment);
             },
             goCommentAnchor() {
                 let anchor = this.$el.querySelector('#thread-comment');
                 document.body.scrollTop = anchor.offsetTop;
+            },
+            showCommentSheet() {
+                this.isCommentSheetShown = true;
+            },
+            comment(content) {
+                let vm = this;
+                vm.isCommentSheetShown = false;
+                // TODO
+                // 请求后台，增加评论记录
+                let comment = {
+                    id: "x",
+                    thread_id: vm.thread.id,
+                    content: content,
+                    add_time: new Date().getTime(),
+                    author: this.$store.state.loginUserInfo,
+                    replies: 0,
+                    like_cnt: 0,
+                    like: 0
+                };
+                vm.isCommentDoneDialogShown = true;
+                vm.commentDoneMessage = '评论成功！';
+                setTimeout(() => {
+                    vm.closeCommentDoneDialog();
+                }, 1500);
+                vm.relatedComments.splice(0, 0, comment);
+                vm.goCommentAnchor();
+            },
+            closeCommentDoneDialog() {
+                this.isCommentDoneDialogShown = false;
             }
         }
     }
@@ -336,6 +384,11 @@
         object-fit: cover
     }
 
+    .thread-comment .comment-time {
+        font-size: 12px;
+        font-family: 宋体;
+    }
+
     .thread-comment-replies {
         align-self: flex-start;
         padding-top: 13px;
@@ -370,10 +423,12 @@
         height: 100%;
         color: #8e8e93;
     }
+
     .thread-comment-input .comment-share {
         width: 40%;
         float: right;
     }
+
     .thread-comment-input .comment-share span {
         margin-left: 2%;
         border-radius: 5px;
@@ -383,6 +438,11 @@
     }
 </style>
 <style>
+    .focus .checked {
+        color: red;
+        font-weight: bold;
+    }
+
     .like-info .checked {
         color: red;
     }
@@ -402,8 +462,8 @@
         font-size: 13px;
         color: #000;
     }
-    .thread-comment-input .comment-share em{
+
+    .thread-comment-input .comment-share em {
         top: 0;
     }
-
 </style>

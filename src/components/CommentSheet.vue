@@ -1,4 +1,9 @@
 <!--社区评论底部弹出窗，用于输入评论-->
+<!--由于封装Muse-UI组件，暂时采用紧耦合。-->
+<!--Required:-->
+<!--Prop: isCommentSheetShown; Event: closeCommentSheet-->
+<!--Others-->
+<!--Event: comment-->
 <template>
     <div>
         <!--评论弹出窗-->
@@ -23,18 +28,17 @@
         ],
         data() {
             return {
-                threadId: null,
-                atCommentId: null,
+                /*commentInfo: null,*/
                 content: null
             };
         },
         mounted() {
-            let vm = this;
-            this.$router.app.$on('commentsheet', function (show, threadId, atCommentId) {
+            // 由于组件局部化，父子传递。直接将相关属性作为Prop传递，而不采用事件
+            /*let vm = this;
+            this.$router.app.$on('commentsheet', function (show, commentInfo) {
                 vm.isCommentSheetShown = show;
-                vm.threadId = threadId;
-                vm.atCommentId = atCommentId;
-            });
+                vm.commentInfo = commentInfo;
+            });*/
         },
         methods: {
             showCommentSheet(show) {
@@ -42,12 +46,12 @@
             },
             // Event: closeShareSheet
             closeCommentSheet() {  // 关闭commentSheet
-                this.$emit('closeShareSheet');
+                this.$emit('closeCommentSheet');
             },
+            // Event: comment
             comment() {  // 进行评论
-                // TODO
-                // 请求后台，增加评论，完成后通知
-                console.log('threadId: ' + this.threadId + ', atCommentId: ' + this.atCommentId + ', content: ' + this.content);
+                this.$emit('comment', this.content);
+                this.content = null;
             }
         }
     }

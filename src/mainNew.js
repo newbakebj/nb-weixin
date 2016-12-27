@@ -3,6 +3,7 @@
  * Created by ArthurZhang on 2016/11/27.
  */
 import Vue from 'vue';
+import * as filters from './filters';
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
 import store from './store';
@@ -16,7 +17,8 @@ import _ from 'lodash';
 /*========== 定义所有视图模块 ==========*/
 const Main = () => System.import('./views/main.vue');
 const Community = () => System.import('./views/community.vue');
-const ThreadDetail = () => System.import('./views/threadDetail.vue');
+const CommunityThreadDetail = () => System.import('./views/communityThreadDetail.vue');
+const CommunityCommentDetail = () => System.import('./views/communityCommentDetail');
 const Market = () => System.import('./views/market.vue');
 const Cart = () => System.import('./views/cart.vue');
 const Mine = () => System.import('./views/mine.vue');
@@ -70,9 +72,13 @@ const router = new VueRouter({
             component: Mine
         }]
     }, {
-        name: 'threadDetail',
+        name: 'communityCommentDetail',
         path: '/thread/:id',
-        component: ThreadDetail
+        component: CommunityThreadDetail
+    }, {
+        name: 'communityCommentDetail',
+        path: '/communityComment/:id',
+        component: CommunityCommentDetail
     }, {
         name: 'test',
         path: '/test',
@@ -95,6 +101,9 @@ Vue.use(MuseUI);
 /*========== Vue-Awesome-Swipe组件配置 ==========*/
 Vue.use(AwesomeSwiper);
 
+
+// Filters
+Vue.filter('date', filters.dateFilter);
 
 /*========== 挂载Vue实例至EL ==========*/
 new Vue({

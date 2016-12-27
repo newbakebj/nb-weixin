@@ -15,6 +15,10 @@
                 transitionName: 'slide-left'
             };
         },
+        mounted() {
+            // 模拟登录后获取用户信息，并通过vuex存储
+            this.$store.dispatch('getAuth');
+        },
         watch: {
             $route(to, from) {
                 const toDepth = to.path.split('/').length;

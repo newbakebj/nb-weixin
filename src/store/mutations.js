@@ -3,12 +3,8 @@
 import * as types from './mutation-types';
 
 export default {
-    // 显示/隐藏分享面板
-    [types.SHOW_SHARE_SHEET](state) {
-        state.isShareSheetShown = !state.isShareSheetShown;
+    // 获取用户授权(登录信息)
+    [types.SET_AUTH](state, userInfo) {
+        state.loginUserInfo = userInfo;
     },
-    // 显示/隐藏评论面板
-    [types.SHOW_COMMENT_SHEET](state) {
-        state.isCommentSheetShown = !state.isCommentSheetShown;
-    }
 };

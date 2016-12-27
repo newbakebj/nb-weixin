@@ -1,4 +1,7 @@
 <!--内容分享底部弹出窗，分享至朋友-->
+<!--由于封装Muse-UI组件，暂时采用紧耦合。-->
+<!--Required:-->
+<!--Prop: isShareSheetShown; Event: closeShareSheet-->
 <template>
     <div>
         <mu-bottom-sheet :open="isShareSheetShown" @close="closeShareSheet">

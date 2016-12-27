@@ -33,7 +33,8 @@
         </div>
 
         <!--底部分享弹出面板-->
-        <share-sheet :isShareSheetShown="isShareSheetShown" v-on:closeShareSheet="isShareSheetShown = !isShareSheetShown;"/>
+        <!--该组件的$emit与父组件的监听暂时无法使用.stop等事件修饰符，且暂时无法获取事件对象，因此暂时未禁止事件冒泡-->
+        <share-sheet :isShareSheetShown="isShareSheetShown" @closeShareSheet="isShareSheetShown = !isShareSheetShown;"/>
     </div>
 </template>
 <script>
@@ -49,7 +50,7 @@
         beforeRouteEnter(to, from, next) {
             next(vm => {
                 // 将使用嵌套路由，而非动态调整底部导航栏显示
-//                vm.$router.app.$emit('bottomnav', true);
+                /*vm.$router.app.$emit('bottomnav', true);*/
             });
         },
         data() {
@@ -104,7 +105,7 @@
                 this.$http.get('categories.json')
                     .then((response) => {
                         // Vue的$set主要用于属性被添加的响应问题，对于已定义的响应式数据，可直接使用赋值
-//                        this.$set(this.$data, 'categories', response.data);
+                        /*this.$set(this.$data, 'categories', response.data);*/
                         this.categories = response.data;
                     });
             },
@@ -119,7 +120,7 @@
             },
             refreshThread() {  // 下拉刷新
                 this.refreshing = true;
-//                loadThread();
+                /*loadThread();*/
                 this.$http.get('threadsRecent.json')
                     .then((response) => {
                         let threadsNew = response.data;
@@ -137,7 +138,7 @@
             },
             peepDetail(thread) {  // 查看详情
                 this.$router.push({
-                    name: 'threadDetail',
+                    name: 'communityCommentDetail',
                     params: {
                         id: thread.id
                     }
