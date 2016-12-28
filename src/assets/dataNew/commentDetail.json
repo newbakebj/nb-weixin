@@ -6,7 +6,9 @@
   "author": {
     "id": "0",
     "name": "路人甲",
-    "avatar": "/src/assets/image/avatar_1.png"
+    "avatar": "/src/assets/image/avatar_1.png",
+    "focus": 1,
+    "block": 0
   },
   "replies": 11,
   "like_cnt": 12,

@@ -39,7 +39,7 @@
                 this.transitionName = navItems[bottomNav] > navItems[val] ? 'slide-left' : 'slide-right';
                 this.bottomNav = val;
                 this.$router.push({name: val});
-            },
+            }
         }
     }
 </script>

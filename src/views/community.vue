@@ -13,7 +13,7 @@
             <!--滑动容器，显示主要类目-->
             <swiper :options="swiperOption" class="category-swiper">
                 <swiper-slide v-for="(category, index) in categories">
-                    <a href="javascript:void(0);" :class="{ cur_swiper: (index == curSwiper) }"
+                    <a href="javascript:void(0);" :class="{ 'cur-swiper': (index == curSwiper) }"
                        @click="changeCategory(index, category.id)">{{ category.name }}</a>
                 </swiper-slide>
             </swiper>
@@ -69,8 +69,7 @@
                 refreshing: false,
                 trigger: null,
                 loading: false,
-                scroller: null,
-                loadingText: '正在玩命加载...'
+                scroller: null
             };
         },
         mounted() {
@@ -138,7 +137,7 @@
             },
             peepDetail(thread) {  // 查看详情
                 this.$router.push({
-                    name: 'communityCommentDetail',
+                    name: 'communityThreadDetail',
                     params: {
                         id: thread.id
                     }

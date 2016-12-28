@@ -18,7 +18,8 @@ import _ from 'lodash';
 const Main = () => System.import('./views/main.vue');
 const Community = () => System.import('./views/community.vue');
 const CommunityThreadDetail = () => System.import('./views/communityThreadDetail.vue');
-const CommunityCommentDetail = () => System.import('./views/communityCommentDetail');
+const CommunityCommentDetail = () => System.import('./views/communityCommentDetail.vue');
+const CommunityCommentLikerList = () => System.import('./views/communityCommentLikerList.vue');
 const Market = () => System.import('./views/market.vue');
 const Cart = () => System.import('./views/cart.vue');
 const Mine = () => System.import('./views/mine.vue');
@@ -72,13 +73,17 @@ const router = new VueRouter({
             component: Mine
         }]
     }, {
-        name: 'communityCommentDetail',
-        path: '/thread/:id',
+        name: 'communityThreadDetail',
+        path: '/community/thread/:id',
         component: CommunityThreadDetail
     }, {
         name: 'communityCommentDetail',
-        path: '/communityComment/:id',
+        path: '/community/comment/:id',
         component: CommunityCommentDetail
+    }, {
+        name: 'communityCommentLikerList',
+        path: '/community/commentLikerList/:id',
+        component: CommunityCommentLikerList
     }, {
         name: 'test',
         path: '/test',

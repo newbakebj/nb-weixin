@@ -3,7 +3,7 @@
     <div>
         <!--标题栏-->
         <div>
-            <mu-appbar class="title-bar">
+            <mu-appbar class="title-bar" title="焙帖详情">
                 <mu-icon-button icon="navigate_before" slot="left" @click="$router.go(-1);"/>
                 <mu-icon-button icon="more_vert" slot="right" @click="isShareSheetShown = true;"/>
             </mu-appbar>
@@ -50,7 +50,7 @@
             <!--相关商品-->
             <div class="related-good-swiper">
                 <swiper :options="swiperOption">
-                    <swiper-slide v-for="relatedGood in relatedGoods">
+                    <swiper-slide v-for="relatedGood in relatedGoods" @click.stop="peepGood(relatedGood)">
                         <div>
                             <mu-grid-tile>
                                 <img :src="relatedGood.image_src"/>
@@ -118,7 +118,7 @@
         <!--底部评论弹出窗-->
         <comment-sheet :isCommentSheetShown="isCommentSheetShown"
                        @closeCommentSheet="isCommentSheetShown = !isCommentSheetShown;"
-                       @comment="comment"/>
+                       @comment="comment" hintText="就知道你有意见..."/>
         <mu-dialog :open="isCommentDoneDialogShown"
                    :title="commentDoneMessage" @close="closeCommentDoneDialog"/>
     </div>
@@ -194,8 +194,8 @@
                     this.relatedComments = response.data;
                 })
             },
-            focus(baker) {
-                baker.focus = !baker.focus;
+            focus(user) {
+                user.focus = !user.focus;
                 // TODO
                 // 请求后台，增加关注记录或者变更关注记录
             },
@@ -211,11 +211,23 @@
                 console.log('favorite: ');
                 console.log(thread);
             },
+            peepGood(good) {
+                // TODO
+                // 打开商品详情页面
+                console.log('related good: ');
+                console.log(good);
+            },
             peepRelatedComment(relatedComment) {  // 查看当前评论详情
                 // TODO
                 // 打开评论详情页面
                 console.log('related comment: ');
-                console.log(relatedComment)
+                console.log(relatedComment);
+                this.$router.push({
+                    name: 'communityCommentDetail',
+                    params: {
+                        id: relatedComment.id
+                    }
+                });
             },
             peepUser(user) {
                 // TODO
@@ -269,7 +281,8 @@
 
 <style scoped>
     .title-bar {
-        height: 40px;
+        /*见commentComentDetail.vue相关说明*/
+        height: 48px;
     }
 
     .main-body {
@@ -404,13 +417,19 @@
     }
 
     .thread-comment-input {
-        width: 100%;
         height: 40px;
         position: fixed;
         bottom: 0;
         background: #e1e1e1;
         z-index: 1;
         padding: 5px 0 5px 20px;
+        /*采用绝对定位，与相对定位冲突，需要单独处理宽度*/
+        width: 100%;
+        min-width: 320px;
+        max-width: 750px;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
     }
 
     .thread-comment-input .comment-input {
@@ -438,6 +457,10 @@
     }
 </style>
 <style>
+    .title-bar .mu-appbar-title {
+        text-align: center;
+    }
+
     .focus .checked {
         color: red;
         font-weight: bold;

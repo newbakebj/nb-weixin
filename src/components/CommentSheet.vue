@@ -10,7 +10,7 @@
         <mu-bottom-sheet :open="isCommentSheetShown" @close="closeCommentSheet">
             <div class="comment-sheet-sheet">
                 <div class="comment">
-                    <mu-text-field hintText="就知道你有意见..." fullWidth multiLine :rows="4" :rowsMax="6" v-model="content"/>
+                    <mu-text-field :hintText="hintText" fullWidth multiLine :rows="4" :rowsMax="6" v-model="content"/>
                 </div>
             </div>
             <div class="comment-sheet-submit">
@@ -24,7 +24,8 @@
     export default {
         name: 'commentSheet',
         props: [
-            'isCommentSheetShown'
+            'isCommentSheetShown',
+            'hintText'
         ],
         data() {
             return {

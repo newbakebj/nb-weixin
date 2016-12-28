@@ -1,0 +1,23 @@
+{
+  "total": 7,
+  "list": [
+    {
+      "id": "0",
+      "name": "萧峰",
+      "avatar": "/src/assets/image/threadTest.jpg",
+      "desc": "我是契丹人"
+    },
+    {
+      "id": "1",
+      "name": "张三丰",
+      "avatar": "/src/assets/image/avatar_1.png",
+      "desc": "阴阳无极功"
+    },
+    {
+      "id": "2",
+      "name": "雷军",
+      "avatar": "/src/assets/image/threadTest.jpg",
+      "desc": "Are you OK?"
+    }
+  ]
+}

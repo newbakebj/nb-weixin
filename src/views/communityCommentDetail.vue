@@ -3,9 +3,12 @@
     <div>
         <!--标题栏-->
         <div>
-            <mu-appbar class="title-bar">
+            <mu-appbar class="comment-comment-title-bar" title="评论详情">
                 <mu-icon-button icon="navigate_before" slot="left" @click="$router.go(-1);"/>
-                <mu-icon-button icon="more_vert" slot="right" @click=""/>
+                <mu-icon-menu icon="more_vert" slot="right">
+                    <mu-menu-item title="关注" @click="focus(comment.author)"/>
+                    <mu-menu-item title="拉黑" @click="block(comment.author)"/>
+                </mu-icon-menu>
             </mu-appbar>
         </div>
         <!--根回复-->
@@ -13,7 +16,7 @@
             <mu-list>
                 <mu-list-item :title="comment.author.name"
                               titleClass="comment-comment-title" :describeLine="5"
-                              @click="peepRelatedComment(relatedComment)">
+                              @click="peepRelatedComment(relatedComment)" disabled>
                     <div slot="leftAvatar" @click.stop="peepUser(comment.author)">
                         <mu-avatar :src="comment.author.avatar"/>
                     </div>
@@ -27,7 +30,7 @@
                     </div>
                     <div slot="right" class="comment-comment-replies"
                          :style="{color: (comment.like ? 'red' : '')}"
-                         @click.stop="likeComment(relatedComment)">
+                         @click.stop="likeComment">
                         <mu-icon value="thumb_up" :size="14"/>
                         <span class="like-cnt">{{ comment.like_cnt }}</span>
                     </div>
@@ -35,12 +38,15 @@
             </mu-list>
         </div>
         <!--点赞人的头像列表-->
-        <div class="comment-liker" v-show="0 != likers.total">
-            <template v-for="liker in likers.list">
-                <mu-avatar :src="liker.avatar"/>
-            </template>
-            <span>{{ likers.total + '个人赞过' }}</span>
-            <mu-icon-menu icon="right" @click=""/>
+        <div class="comment-liker" v-show="0 != likers.total" @click.stop="peepLikers">
+            <div class="liker-list">
+                <span v-for="liker in likers.list">
+                    <mu-avatar :src="liker.avatar"/>
+                </span>
+            </div>
+            <div class="liker-total">
+                <mu-flat-button :label="likers.total + '个人赞过'" icon="navigate_next" labelPosition="before"/>
+            </div>
         </div>
         <!--针对回复的回复-->
         <div class="comment-comment" id="comment-comment">
@@ -48,7 +54,7 @@
                 <mu-sub-header>全部评论</mu-sub-header>
                 <mu-list-item :title="relatedComment.author.name" v-for="(relatedComment, index) in relatedComments"
                               titleClass="comment-comment-title" :describeLine="5"
-                              @click="peepRelatedComment(relatedComment)">
+                              @click="replyComment(relatedComment)">
                     <div slot="leftAvatar" @click.stop="peepUser(relatedComment.author)">
                         <mu-avatar :src="relatedComment.author.avatar"/>
                     </div>
@@ -60,11 +66,11 @@
                     <div class="comment-time">
                         <span>{{ relatedComment.add_time | date(5) }}</span>
                         ·
-                        <span>{{ relatedComment.replies | reply }}</span>
+                        <span>{{ 0 == relatedComment.replies ? '回复' : relatedComment.replies + '条回复' }}</span>
                     </div>
                     <div slot="right" class="comment-comment-replies"
                          :style="{color: (relatedComment.like ? 'red' : '')}"
-                         @click.stop="likeComment(relatedComment)">
+                         @click.stop="likeRelatedComment(relatedComment)">
                         <mu-icon value="thumb_up" :size="14"/>
                         <span class="like-cnt">{{ relatedComment.like_cnt }}</span>
                     </div>
@@ -86,21 +92,30 @@
             </div>
         </div>
 
+        <!--底部分享弹出面板-->
+        <share-sheet :isShareSheetShown="isShareSheetShown" @closeShareSheet="isShareSheetShown = !isShareSheetShown;"/>
+
         <!--底部评论弹出窗-->
         <comment-sheet :isCommentSheetShown="isCommentSheetShown"
                        @closeCommentSheet="isCommentSheetShown = !isCommentSheetShown;"
-                       @comment="comment"/>
+                       @comment="commentComment" hintText="就知道你有意见..."/>
+        <!--底部回复弹出窗-->
+        <comment-sheet :isCommentSheetShown="isReplySheetShown"
+                       @closeCommentSheet="isReplySheetShown = !isReplySheetShown;"
+                       @comment="replyComment" hintText="回复..."/>
         <mu-dialog :open="isCommentDoneDialogShown"
                    :title="commentDoneMessage" @close="closeCommentDoneDialog"/>
     </div>
 </template>
 
 <script>
+    import shareSheet from '../components/ShareSheet.vue';
     import commentSheet from '../components/CommentSheet.vue';
 
     export default {
         name: 'commentDetail',
         components: {
+            'share-sheet': shareSheet,
             'comment-sheet': commentSheet
         },
         data() {
@@ -108,17 +123,36 @@
                 comment: {
                     author: {}
                 },
+                likers: {
+                    list: []
+                },
                 relatedComments: [],
                 isCommentSheetShown: false,
                 isCommentDoneDialogShown: false,
+                isShareSheetShown: false,
                 commentDoneMessage: null
             };
         },
         mounted() {
             this.queryCommentDetail();
+            this.queryLikers();
             this.queryRelatedComment();
         },
         methods: {
+            focus(user) {  // 关注用户
+                user.focus = !user.focus;
+                // TODO
+                // 请求后台，增加关注记录或者变更关注记录
+                console.log('focus: ');
+                console.log(user);
+            },
+            block(user) {  // 拉黑用户
+                user.block = !user.block;
+                // TODO
+                // 请求后台，增加关注记录或者变更关注记录
+                console.log('block: ');
+                console.log(user);
+            },
             queryCommentDetail() {  // 根据ID获取评论详情
                 this.$http.get('commentDetail.json', {
                     params: {
@@ -126,6 +160,23 @@
                     }
                 }).then((response) => {
                     this.comment = response.data;
+                });
+            },
+            queryLikers() {  // 根据评论ID获取点赞人列表
+                this.$http.get('commentLikers.json', {
+                    params: {
+                        id: this.$route.params.id
+                    }
+                }).then((response) => {
+                    this.likers = response.data;
+                });
+            },
+            peepLikers() {  // 查看当前评论的点赞人列表
+                this.$router.push({
+                    name: 'communityCommentLikerList',
+                    params: {
+                        id: this.$route.params.id
+                    }
                 });
             },
             queryRelatedComment() {  // 根据评论ID获取相关评论
@@ -137,8 +188,8 @@
                     this.relatedComments = response.data;
                 })
             },
-            likeComment(comment) {
-                comment.like = !comment.like;
+            likeComment() {
+                this.comment.like = !this.comment.like;
                 // TODO
                 // 请求后台，增加点赞记录或者变更点赞记录
             },
@@ -149,11 +200,12 @@
                 console.log('favorite: ');
                 console.log(comment);
             },
-            peepRelatedComment(relatedComment) {  // 查看当前评论详情
+            replyComment(relatedComment) {  // 对某评论进行回复
                 // TODO
-                // 打开评论详情页面
-                console.log('related comment: ');
+                // 请求后台，增加回复记录
+                console.log('reply comment: ');
                 console.log(relatedComment)
+
             },
             peepUser(user) {
                 // TODO
@@ -207,12 +259,32 @@
 </script>
 
 <style scoped>
-    .title-bar {
-        height: 40px;
+    .comment-comment-title-bar {
+        height: 48px;
     }
 
     .comment-liker {
         height: 60px;
+        padding: 10px 10px;
+        background: #e1e1e1;
+    }
+    .comment-liker .liker-list {
+        width: 60%;
+        height: 100%;
+        float: left;
+    }
+    .comment-liker .liker-list span {
+        display: inline-block;
+        padding: 0 2px;
+        height: 40px;
+    }
+
+    .comment-liker .liker-total {
+        width: 40%;
+        height: 100%;
+        float: right;
+        text-align: right;
+        padding: 2px 0;
     }
 
     .comment-comment .comment-time {
@@ -235,17 +307,23 @@
     }
 
     .comment-comment-input {
-        width: 100%;
         height: 40px;
         position: fixed;
         bottom: 0;
         background: #e1e1e1;
         z-index: 1;
         padding: 5px 0 5px 20px;
+        /*采用绝对定位，与相对定位冲突，需要单独处理宽度*/
+        width: 100%;
+        min-width: 320px;
+        max-width: 750px;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
     }
 
     .comment-comment-input .comment-input {
-        width: 60%;
+        width: 70%;
         float: left;
         border-radius: 30px;
         padding-left: 10px;
@@ -256,21 +334,29 @@
     }
 
     .comment-comment-input .comment-share {
-        width: 40%;
+        width: 30%;
         float: right;
     }
 
     .comment-comment-input .comment-share span {
-        margin-left: 2%;
+        margin-left: 5%;
         border-radius: 5px;
         display: inline-block;
-        width: 25%;
+        width: 45%;
         text-align: center;
+    }
+
+    .comment-comment-input .comment-share span:last-child {
+        float: right;
     }
 
 </style>
 
 <style>
+    .comment-comment-title-bar .mu-appbar-title {
+        text-align: center;
+    }
+
     .comment-comment {
         font-family: 黑体;
         margin-top: 10px;
