@@ -4,10 +4,9 @@
         <!--页头-->
         <div class="header">
             <!--标题栏-->
-            <mu-appbar>
-                <mu-flat-button slot="left" :label="city" icon="arrow_drop_down" hoverColor="pink200" labelPosition="before"
-                                class="city-choose community-city-choose" @click="selectCity"/>
-                <mu-text-field slot="left" icon="search" hintText="寻找好帖" class="community-search"/>
+            <mu-appbar class="title-bar" >
+                <img src="/src/assets/image/logo.png" slot="left" class="community-logo"/>
+                <mu-text-field slot="right" icon="search" hintText="寻找好帖" class="community-search"/>
                 <mu-icon-button slot="right" icon="more_vert" @click="showShareSheet"/>
             </mu-appbar>
             <!--滑动容器，显示主要类目-->
@@ -29,7 +28,9 @@
                     <mu-divider class="thread-list-divider"/>
                 </template>
             </mu-list>
-            <mu-infinite-scroll :scroller="scroller" :loading="loading" loadingText="玩命加载中..." @load="loadMoreThread"/>
+            <mu-infinite-scroll :scroller="scroller" :loading="loading" loadingText="玩命加载中..."
+                                @load="loadMoreThread" v-show="!nothingToLoad"/>
+            <div v-show="nothingToLoad" class="infinite-finish">------暂时没有啦------</div>
         </div>
 
         <!--底部分享弹出面板-->
@@ -55,12 +56,11 @@
         },
         data() {
             return {
-                city: '选择城市',
                 isShareSheetShown: false,
                 swiperOption: {
                     autoHeight: true,
-                    slidesPerView: 4,
-                    spaceBetween: 2,
+                    slidesPerView: 6,
+                    spaceBetween: 1,
                     preventClickPropagation: true
                 },
                 curSwiper: 0,
@@ -69,10 +69,14 @@
                 refreshing: false,
                 trigger: null,
                 loading: false,
-                scroller: null
+                scroller: null,
+                nothingToLoad: false
             };
         },
         mounted() {
+            document.getElementById('threadList').style.height =
+                document.documentElement.clientHeight - 100 - 60 + 'px';
+
             /*
              * 这里对父子Vue实例的生命周期理解不甚
              * 若直接对(DOM使用的)响应级成员进行赋值，如scroller、loading等，
@@ -90,9 +94,6 @@
             this.loadThread();
         },
         methods: {
-            selectCity() {
-                alert('Selecting address.');
-            },
             showShareSheet() {  // 显示bottomsheet
                 // 对于路由视图，不认定为父子组件作用域。需要使用$router.app作为通信栈，listener同。
                 // 现反向使用，将ShareSheet作为子组件引入使用。因而不使用如下事件
@@ -131,7 +132,11 @@
                 this.loading = true;
                 this.$http.get('threadsMore.json')
                     .then((response) => {
-                        this.threads = this.threads.concat(response.data);
+                        if (0 == response.data.length) {
+                            this.nothingToLoad = true;
+                        } else {
+                            this.threads = this.threads.concat(response.data);
+                        }
                         this.loading = false;
                     });
             },
@@ -156,21 +161,19 @@
     对外来引用组件进行样式调整时，使用全局作用域style。(但保证对该组件进行样式调整时，有父级可区分该scope的选择器用于不对其他组件产生干扰)
 -->
 <style>
-    .community-city-choose .mu-flat-button-label {
-        /*由于scoped影响，不生效，暂时不对muse-ui相关组件进行样式重定义*/
-        padding-left: 0;
-        padding-right: 0 !important;
-    }
     .community-search .mu-text-field-input {
-        /*由于scoped影响，不生效，暂时不对muse-ui相关组件进行样式重定义*/
         color: #fff !important;
     }
     .community-thread-list .mu-item {
-        /*由于scoped影响，不生效，暂时不对muse-ui相关组件进行样式重定义*/
         padding: 12px !important;
     }
 </style>
 <style scoped>
+    .title-bar {
+        /*见commentComentDetail.vue相关说明*/
+        height: 60px;
+    }
+
     .header {
         position: fixed;
         top: 0;
@@ -183,15 +186,16 @@
         left: 0;
         right: 0;
     }
-    .city-choose {
-        padding-left: 0;
-        padding-right: 0 !important;
-        color: #fff;
+
+    .community-logo {
+        width: 80px;
+        height: 48px;
+        border-radius: 5px;
     }
 
     .community-search {
         font-size: 13px;
-        width: 200px;
+        width: 175px;
     }
 
     .community-search i {
@@ -217,13 +221,20 @@
 
     .thread-list {
         margin-top: 100px;
-        height: 1024px;
+        /*height: 100px;*/
         overflow: auto;
         overflow-scrolling: touch;
+        position: relative;
     }
 
     .thread-list .thread-list-divider {
         width: 97%;
         margin: auto !important;
+    }
+
+    .infinite-finish {
+        width: 100%;
+        height: 20px;
+        text-align: center;
     }
 </style>

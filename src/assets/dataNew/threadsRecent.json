@@ -3,8 +3,11 @@
     "id": "15",
     "title": "这是一条来自牛焙网的帖子(Refresh)",
     "type": "text",
-    "author_avatar": "/src/assets/image/threadTest.jpg",
-    "author_name": "大轮明王鸠摩智",
+    "author": {
+      "id": "1",
+      "avatar": "/src/assets/image/threadTest.jpg",
+      "name": "大轮明王鸠摩智"
+    },
     "like_cnt": 5,
     "replies": 10,
     "add_time": "2016-12-12 12:00:00"
@@ -15,8 +18,11 @@
     "type": "image",
     "image_cnt": 1,
     "image_src": "/src/assets/image/threadTest.jpg",
-    "author_avatar": "/src/assets/image/threadTest.jpg",
-    "author_name": "大轮明王鸠摩智",
+    "author": {
+      "id": "1",
+      "avatar": "/src/assets/image/threadTest.jpg",
+      "name": "大轮明王鸠摩智"
+    },
     "like_cnt": 5,
     "replies": 10,
     "add_time": "2016-12-12 12:00:00"
@@ -27,8 +33,11 @@
     "type": "image",
     "image_cnt": 2,
     "image_src": "/src/assets/image/threadTest.jpg",
-    "author_avatar": "/src/assets/image/threadTest.jpg",
-    "author_name": "大轮明王鸠摩智",
+    "author": {
+      "id": "1",
+      "avatar": "/src/assets/image/threadTest.jpg",
+      "name": "大轮明王鸠摩智"
+    },
     "like_cnt": 5,
     "replies": 10,
     "add_time": "2016-12-12 12:00:00"
@@ -39,8 +48,11 @@
     "type": "image",
     "image_cnt": 3,
     "image_src": "/src/assets/image/threadTest.jpg",
-    "author_avatar": "/src/assets/image/threadTest.jpg",
-    "author_name": "大轮明王鸠摩智",
+    "author": {
+      "id": "1",
+      "avatar": "/src/assets/image/threadTest.jpg",
+      "name": "大轮明王鸠摩智"
+    },
     "like_cnt": 5,
     "replies": 10,
     "add_time": "2016-12-12 12:00:00"
@@ -50,8 +62,11 @@
     "title": "这是一条来自牛焙网的帖子(Refresh)",
     "type": "video",
     "video_src": "/src/assets/video/threadTest.mp4",
-    "author_avatar": "/src/assets/image/threadTest.jpg",
-    "author_name": "大轮明王鸠摩智",
+    "author": {
+      "id": "1",
+      "avatar": "/src/assets/image/threadTest.jpg",
+      "name": "大轮明王鸠摩智"
+    },
     "like_cnt": 5,
     "replies": 10,
     "add_time": "2016-12-12 12:00:00"

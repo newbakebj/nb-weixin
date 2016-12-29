@@ -78,11 +78,11 @@ const router = new VueRouter({
         component: CommunityThreadDetail
     }, {
         name: 'communityCommentDetail',
-        path: '/community/comment/:id',
+        path: '/community/thread/comment/:id',
         component: CommunityCommentDetail
     }, {
         name: 'communityCommentLikerList',
-        path: '/community/commentLikerList/:id',
+        path: '/community/thread/comment/commentLikerList/:id',
         component: CommunityCommentLikerList
     }, {
         name: 'test',

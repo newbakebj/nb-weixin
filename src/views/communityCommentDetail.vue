@@ -54,7 +54,7 @@
                 <mu-sub-header>全部评论</mu-sub-header>
                 <mu-list-item :title="relatedComment.author.name" v-for="(relatedComment, index) in relatedComments"
                               titleClass="comment-comment-title" :describeLine="5"
-                              @click="replyComment(relatedComment)">
+                              @click="showReplySheet(relatedComment)">
                     <div slot="leftAvatar" @click.stop="peepUser(relatedComment.author)">
                         <mu-avatar :src="relatedComment.author.avatar"/>
                     </div>
@@ -102,7 +102,7 @@
         <!--底部回复弹出窗-->
         <comment-sheet :isCommentSheetShown="isReplySheetShown"
                        @closeCommentSheet="isReplySheetShown = !isReplySheetShown;"
-                       @comment="replyComment" hintText="回复..."/>
+                       @comment="replyComment" :hintText="'@' + atComment.author.name + '...'"/>
         <mu-dialog :open="isCommentDoneDialogShown"
                    :title="commentDoneMessage" @close="closeCommentDoneDialog"/>
     </div>
@@ -128,6 +128,12 @@
                 },
                 relatedComments: [],
                 isCommentSheetShown: false,
+                isReplySheetShown: false,
+                atComment: {
+                    author: {
+                        name: null
+                    }
+                },
                 isCommentDoneDialogShown: false,
                 isShareSheetShown: false,
                 commentDoneMessage: null
@@ -193,19 +199,33 @@
                 // TODO
                 // 请求后台，增加点赞记录或者变更点赞记录
             },
-            favoriteThread(comment) {
-                comment.favorite = !comment.favorite;
-                // TODO
-                // 请求后台，增加收藏或者变更收藏记录
-                console.log('favorite: ');
-                console.log(comment);
+            showReplySheet(relatedComment) {
+                this.isReplySheetShown = true;
+                this.atComment = relatedComment;
             },
-            replyComment(relatedComment) {  // 对某评论进行回复
+            replyComment(content) {  // 对某评论进行回复
+                let vm = this;
+                vm.isReplySheetShown = false;
                 // TODO
                 // 请求后台，增加回复记录
-                console.log('reply comment: ');
-                console.log(relatedComment)
-
+                let comment = {
+                    id: "x",
+                    thread_id: vm.atComment.thread_id,
+                    content: content + ' // @' + vm.atComment.author.name + ': ' + vm.atComment.content,
+                    at_comment_id: vm.atComment.id,
+                    add_time: new Date().getTime(),
+                    author: this.$store.state.loginUserInfo,
+                    replies: 0,
+                    like_cnt: 0,
+                    like: 0
+                };
+                vm.isCommentDoneDialogShown = true;
+                vm.commentDoneMessage = '评论成功！';
+                setTimeout(() => {
+                    vm.closeCommentDoneDialog();
+                }, 1500);
+                vm.relatedComments.splice(0, 0, comment);
+                vm.goCommentAnchor();
             },
             peepUser(user) {
                 // TODO

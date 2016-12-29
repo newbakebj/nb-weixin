@@ -131,6 +131,10 @@
     .formatter-thread-avatar span {
         display: inline-block; line-height: 25px; height: 22px; overflow: hidden; font-size: 10px;
     }
+    .formatter-thread-avatar .avatar span:last-child {
+        margin-left: 2px;
+    }
+
     .formatter-thread-avatar .avatar {
         display: inline-block; float: left; width: 60%;
     }
@@ -154,6 +158,9 @@
     }
     .formatter-image-thread-avatar span {
         display: inline-block; line-height: 25px; height: 22px; overflow: hidden; font-size: 10px;
+    }
+    .formatter-image-thread-avatar .avatar span:last-child {
+        margin-left: 2px;
     }
     .formatter-image-thread-avatar .avatar {
         display: inline-block; float: left; width: 60%;
